@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Maresia OS · proposta</title>
+<title>Jandaia OS · proposta</title>
 <link rel="icon" href="assets/icone.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,23 +14,23 @@
 *{box-sizing:border-box}
 html,body{margin:0}
 :root{
-  --fundo:#f3f6f5; --papel:#fff; --tinta:#10201f; --tinta2:#41524f; --tinta3:#667775;
-  --linha:#dde6e4; --nav:#0b2e2c; --nav-tx:#bfdcd8; --marca:#0f766e; --laranja:#d63e5c; --laranja-bg:#fcebee;
+  --fundo:#f3f6f5; --papel:#fff; --tinta:#13221f; --tinta2:#43524f; --tinta3:#6b7a77;
+  --linha:#e1e8e6; --nav:#0b2e2c; --nav-tx:#bfdcd6; --marca:#0f766e; --laranja:#f5b301; --laranja-bg:#fdf5dc; --laranja-tx:#8a5a00;
   --ok:#17703f; --ok-bg:#eaf5ee; --cr:#b42318;
   --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --fundo:#0a1716; --papel:#112423; --tinta:#e8f1ef; --tinta2:#bccfcb; --tinta3:#88a19d; --linha:#1f3b39;
-  --nav:#071311; --marca:#4fd1c5; --laranja:#f27a92; --laranja-bg:#3a1520; --ok:#5cc489; --ok-bg:#132a1d; --cr:#f0756a; color-scheme:dark}}
+  --fundo:#0a1614; --papel:#12201e; --tinta:#e9f2f0; --tinta2:#bfd0cc; --tinta3:#8aa19c; --linha:#22403c;
+  --nav:#071311; --marca:#4fd1c5; --laranja:#f7c948; --laranja-bg:#2e260b; --laranja-tx:#f7c948; --ok:#5cc489; --ok-bg:#132a1d; --cr:#f0756a; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --fundo:#0a1716; --papel:#112423; --tinta:#e8f1ef; --tinta2:#bccfcb; --tinta3:#88a19d; --linha:#1f3b39;
-  --nav:#071311; --marca:#4fd1c5; --laranja:#f27a92; --laranja-bg:#3a1520; --ok:#5cc489; --ok-bg:#132a1d; --cr:#f0756a; color-scheme:dark}
+  --fundo:#0a1614; --papel:#12201e; --tinta:#e9f2f0; --tinta2:#bfd0cc; --tinta3:#8aa19c; --linha:#22403c;
+  --nav:#071311; --marca:#4fd1c5; --laranja:#f7c948; --laranja-bg:#2e260b; --laranja-tx:#f7c948; --ok:#5cc489; --ok-bg:#132a1d; --cr:#f0756a; color-scheme:dark}
 body{font-family:var(--sans);background:var(--fundo);color:var(--tinta);font-size:16px;line-height:1.6}
 .band{background:var(--nav);color:#fff;padding:44px 16px 40px}
 .band-in,.wrap{max-width:860px;margin:0 auto}
 .wide{max-width:1180px;margin:0 auto}
 .logo{height:46px;display:block;margin-bottom:26px}
-.eyebrow{font-family:var(--mono);font-size:12.5px;color:#f7a3b4;letter-spacing:.04em;text-transform:uppercase}
+.eyebrow{font-family:var(--mono);font-size:12.5px;color:#f7d36b;letter-spacing:.04em;text-transform:uppercase}
 h1{font-size:34px;line-height:1.2;margin:8px 0 14px;font-weight:600;letter-spacing:-.01em}
 .lead{color:var(--nav-tx);font-size:17.5px;max-width:700px;margin:0}
 .wrap,.wide{padding:0 16px}
@@ -58,7 +58,7 @@ td{padding:11px 14px;border-bottom:1px solid var(--linha);vertical-align:top}
 tr:last-child td{border-bottom:0}
 .tbl{overflow-x:auto;border-radius:12px}
 .pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 9px;border-radius:10px;white-space:nowrap}
-.p1{background:var(--laranja-bg);color:var(--laranja)} .p2{background:#e0f2ef;color:var(--marca)} .p3{background:var(--fundo);color:var(--tinta2);border:1px solid var(--linha)}
+.p1{background:var(--laranja-bg);color:var(--laranja-tx)} .p2{background:#e2f2ef;color:var(--marca)} .p3{background:var(--fundo);color:var(--tinta2);border:1px solid var(--linha)}
 :root[data-theme="dark"] .p2{background:#12302d} @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .p2{background:#12302d}}
 .persona{display:grid;grid-template-columns:200px 1fr;gap:18px;padding:18px 0;border-top:1px solid var(--linha)}
 .persona h3{color:var(--marca)}
@@ -73,7 +73,7 @@ tr:last-child td{border-bottom:0}
 .shot .cap span{font-size:13.5px;color:var(--tinta2)}
 .cta{display:flex;gap:16px;align-items:center;justify-content:space-between;background:var(--nav);color:#fff;border-radius:14px;padding:24px 26px;margin-top:20px;flex-wrap:wrap}
 .cta p{margin:0;color:var(--nav-tx)}
-.btn{display:inline-block;background:var(--laranja);color:#fff;text-decoration:none;font-weight:600;padding:11px 20px;border-radius:9px;white-space:nowrap}
+.btn{display:inline-block;background:var(--laranja);color:#1c1600;text-decoration:none;font-weight:600;padding:11px 20px;border-radius:9px;white-space:nowrap}
 .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 4px}
 .flow span{background:var(--papel);border:1px solid var(--linha);border-radius:8px;padding:6px 11px;font-size:13.5px}
 .flow i{color:var(--tinta3);font-style:normal}
@@ -81,13 +81,13 @@ tr:last-child td{border-bottom:0}
 .arch .col{background:var(--papel);border:1px solid var(--linha);border-radius:12px;padding:14px 16px}
 .arch .col h3{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--tinta3)}
 .arch .col div{padding:7px 10px;border-radius:7px;background:var(--fundo);margin-top:7px;font-size:14px}
-.arch .mid div{background:#e0f2ef;color:var(--marca);font-weight:500}
+.arch .mid div{background:#e2f2ef;color:var(--marca);font-weight:500}
 :root[data-theme="dark"] .arch .mid div{background:#12302d} @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .arch .mid div{background:#12302d}}
 .note{background:var(--laranja-bg);border-radius:10px;padding:14px 16px;font-size:14.5px;color:var(--tinta)}
 .mono{font-family:var(--mono);font-size:13px}
 .q{counter-reset:q;list-style:none;padding:0;margin:0}
 .q li{padding:12px 0 12px 36px;border-top:1px solid var(--linha);position:relative}
-.q li:before{counter-increment:q;content:counter(q);position:absolute;left:0;top:12px;font-family:var(--mono);color:var(--laranja);font-weight:500}
+.q li:before{counter-increment:q;content:counter(q);position:absolute;left:0;top:12px;font-family:var(--mono);color:var(--laranja-tx);font-weight:500}
 .q li span{display:block;font-size:14px;color:var(--tinta2)}
 footer{margin:70px auto 40px;color:var(--tinta3);font-size:13px;text-align:center;padding:0 16px}
 @media (max-width:860px){
@@ -100,9 +100,9 @@ footer{margin:70px auto 40px;color:var(--tinta3);font-size:13px;text-align:cente
 <body>
 <header class="band">
   <div class="band-in">
-    <img src="assets/logo-branco.png" alt="Maresia Fibra · Provedor de Internet" class="logo">
-    <div class="eyebrow">Proposta · Maresia OS</div>
-    <h1>Administrar a Maresia de qualquer lugar, com números em que dá para confiar</h1>
+    <img src="assets/logo-branco.png" alt="Jandaia Fibra Óptica" class="logo">
+    <div class="eyebrow">Proposta · Jandaia OS</div>
+    <h1>Administrar o provedor de qualquer lugar, com números em que dá para confiar</h1>
     <p class="lead">Uma central de gestão que fica por cima do ERP (IXC, SGP, MK-Auth, Hubsoft…), do WhatsApp e da rede. Mostra o que está acontecendo, quem fez o quê e o que precisa da sua decisão, sem depender de planilha, cobrança verbal ou presença na loja.</p>
   </div>
 </header>
@@ -117,7 +117,7 @@ footer{margin:70px auto 40px;color:var(--tinta3);font-size:13px;text-align:cente
 
   <section>
     <h2>O que está difícil hoje</h2>
-    <p class="sub">O que levantamos sobre a operação, e o custo de cada ponto para quem administra.</p>
+    <p class="sub">O que levantamos sobre a operação de provedores regionais, e o custo de cada ponto para quem administra.</p>
     <div class="cards">
       <div class="card"><h3>A cobrança não deixa rastro confiável</h3><p>Não há como saber, sem perguntar, se cada cliente suspenso foi contatado, por quem, por qual canal e com que resultado. "Liguei" e "liguei e o cliente atendeu" ficam iguais.</p><div class="cons">Dinheiro que poderia ser recuperado fica parado, e não dá para cobrar a equipe com base em fatos.</div></div>
       <div class="card"><h3>O motivo do cancelamento está em dois sistemas</h3><p>Para entender por que um cliente saiu é preciso cruzar à mão o ERP com o WhatsApp. Ninguém faz isso todo mês.</p><div class="cons">A empresa perde clientes pelo mesmo problema várias vezes sem perceber o padrão.</div></div>
@@ -127,7 +127,7 @@ footer{margin:70px auto 40px;color:var(--tinta3);font-size:13px;text-align:cente
   </section>
 
   <section>
-    <h2>Como o Maresia OS resolve</h2>
+    <h2>Como o Jandaia OS resolve</h2>
     <p class="sub">Cada módulo responde a um problema concreto. O ERP e o WhatsApp continuam sendo usados como hoje.</p>
     <div class="tbl"><table>
       <thead><tr><th>Problema</th><th>O que o sistema faz</th><th>Prioridade</th></tr></thead>
@@ -168,7 +168,7 @@ footer{margin:70px auto 40px;color:var(--tinta3);font-size:13px;text-align:cente
 
   <section>
     <h2>As telas do protótipo</h2>
-    <p class="sub">Telas reais do protótipo, com dados fictícios de demonstração. Os números não são da Maresia. Clique para abrir.</p>
+    <p class="sub">Telas reais do protótipo, com dados fictícios de demonstração. A Jandaia Fibra é fictícia. Clique para abrir.</p>
   </section>
 </div>
 <div class="wide">
@@ -183,7 +183,7 @@ footer{margin:70px auto 40px;color:var(--tinta3);font-size:13px;text-align:cente
 </div>
 <div class="wrap">
   <section style="margin-top:20px">
-    <div class="cta"><div><h3 style="margin:0 0 4px">Abrir o protótipo completo</h3><p>12 áreas. No menu lateral, "Ver como" mostra o sistema pelos olhos de cada perfil.</p></div><a class="btn" href="prototipo/" target="_blank" rel="noopener">Abrir o Maresia OS →</a></div>
+    <div class="cta"><div><h3 style="margin:0 0 4px">Abrir o protótipo completo</h3><p>12 áreas. No menu lateral, "Ver como" mostra o sistema pelos olhos de cada perfil.</p></div><a class="btn" href="prototipo/" target="_blank" rel="noopener">Abrir o Jandaia OS →</a></div>
     <p class="note" style="margin-top:14px"><b>Para testar na reunião:</b> em Financeiro e Cobranças, abra um cliente, registre uma tentativa e veja o histórico, o agendamento automático e a linha nova na auditoria (em Configurações). Fica salvo neste navegador.</p>
   </section>
 
@@ -206,7 +206,7 @@ footer{margin:70px auto 40px;color:var(--tinta3);font-size:13px;text-align:cente
     <p class="sub">Simples de manter e barata de hospedar. Nada de estrutura complexa antes de precisar.</p>
     <div class="arch">
       <div class="col"><h3>Fontes</h3><div>ERP (clientes, faturas, OS)</div><div>WhatsApp (atendimentos)</div><div>PABX (ligações)</div><div>Zabbix / SNMPv3 / ICMP</div><div>Planilhas do sistema auxiliar</div></div>
-      <div class="col mid"><h3>Maresia OS</h3><div>Conectores independentes, só leitura</div><div>Fila de sincronização com nova tentativa</div><div>Regras de negócio e automações</div><div>PostgreSQL com histórico e auditoria</div><div>Perfis de acesso e registro de acessos</div></div>
+      <div class="col mid"><h3>Jandaia OS</h3><div>Conectores independentes, só leitura</div><div>Fila de sincronização com nova tentativa</div><div>Regras de negócio e automações</div><div>PostgreSQL com histórico e auditoria</div><div>Perfis de acesso e registro de acessos</div></div>
       <div class="col"><h3>Quem usa</h3><div>Painel web e app no celular (PWA)</div><div>Alertas por e-mail e WhatsApp</div><div>Relatórios PDF e planilha</div><div>Power BI pelas visões de dados</div></div>
     </div>
     <div class="tbl" style="margin-top:16px"><table><thead><tr><th>Escolha</th><th>Por quê</th></tr></thead><tbody>
@@ -222,11 +222,11 @@ footer{margin:70px auto 40px;color:var(--tinta3);font-size:13px;text-align:cente
     <h2>Integrações</h2>
     <p class="sub">Nada aqui é suposto: cada integração será confirmada com o fornecedor antes de ser construída. Sem integração, o módulo funciona com importação.</p>
     <div class="tbl"><table><thead><tr><th>Sistema</th><th>O que buscamos</th><th>Fonte oficial de</th><th>Frequência</th><th>O que falta confirmar</th></tr></thead><tbody>
-      <tr><td><b>ERP</b> (IXC, SGP, MK-Auth…)</td><td>Clientes, contratos, faturas, pagamentos, OS, cancelamentos</td><td>Cliente e financeiro</td><td>15 min</td><td>Acesso à API, campos e limites do plano contratado</td></tr>
+      <tr><td><b>ERP</b> (IXC, SGP, MK-Auth, Voalle…)</td><td>Clientes, contratos, faturas, pagamentos, OS, cancelamentos</td><td>Cliente e financeiro</td><td>15 min</td><td>Acesso à API, campos e limites do plano contratado</td></tr>
       <tr><td><b>WhatsApp</b></td><td>Conversas, atendente, canal, tempos, entrega e leitura</td><td>Atendimento</td><td>Tempo real (webhook) ou 15 min</td><td>Se há API/webhook e quais dados expõe</td></tr>
       <tr><td><b>PABX</b></td><td>Registro de chamadas para comprovar ligações</td><td>Prova de ligação</td><td>Diária ou em tempo real</td><td>Marca/modelo do PABX ou operadora de telefonia</td></tr>
       <tr><td><b>Zabbix / SNMP</b></td><td>Status, latência, perda, CPU, sinal óptico</td><td>Rede</td><td>1 a 5 min</td><td>Se já existe Zabbix; acesso de leitura</td></tr>
-      <tr><td><b>Sistema auxiliar</b></td><td>Checklists, estoque, férias e exames</td><td>Migra para o Maresia OS</td><td>Importação única</td><td>Nome do sistema e formato de exportação</td></tr>
+      <tr><td><b>Sistema auxiliar</b></td><td>Checklists, estoque, férias e exames</td><td>Migra para o Jandaia OS</td><td>Importação única</td><td>Nome do sistema e formato de exportação</td></tr>
     </tbody></table></div>
   </section>
 
@@ -245,7 +245,7 @@ footer{margin:70px auto 40px;color:var(--tinta3);font-size:13px;text-align:cente
 
   <section>
     <h2>Custos mensais de operação</h2>
-    <p class="sub">Estimativa para o porte da Maresia, em faixas. Não inclui o desenvolvimento.</p>
+    <p class="sub">Estimativa para um provedor de 3 a 8 mil clientes, em faixas. Não inclui o desenvolvimento.</p>
     <div class="tbl"><table><thead><tr><th>Item</th><th>Faixa mensal</th><th>Premissa</th></tr></thead><tbody>
       <tr><td>Hospedagem da aplicação</td><td>R$ 60 a R$ 200</td><td>Servidor em nuvem ou VPS; até ~30 usuários simultâneos</td></tr>
       <tr><td>Banco de dados gerenciado + backup</td><td>R$ 80 a R$ 250</td><td>Backup diário com 30 dias de retenção</td></tr>
@@ -280,6 +280,6 @@ footer{margin:70px auto 40px;color:var(--tinta3);font-size:13px;text-align:cente
   </section>
 </div>
 
-<footer>Maresia Fibra · Provedor de Internet · proposta do Maresia OS · documento para a diretoria · outubro/2026<br>Todos os números exibidos no protótipo são fictícios e servem apenas para demonstração.</footer>
+<footer>Jandaia Fibra (empresa fictícia) · proposta do Jandaia OS · documento para a diretoria · outubro/2026<br>Todos os números exibidos no protótipo são fictícios e servem apenas para demonstração.</footer>
 </body>
 </html>

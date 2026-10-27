@@ -1,18 +1,16 @@
-# Maresia OS · oferta para provedores de internet
+# Jandaia OS · demonstração para provedores
 
-Kit de demonstração para vender a pequenos provedores, no mesmo modelo do Gamenet OS. **Maresia Fibra é uma marca fictícia**; todos os números são de simulação.
+Material de venda para provedores de internet pequenos: apresentação, protótipo navegável e landing page de uma empresa **fictícia** (Jandaia Fibra). Mesmo modelo do Gamenet OS, com outra marca e outras cores.
 
-- `index.html`: apresentação da proposta (problemas, módulos, perfis, telas, processos, arquitetura, integrações, plano, custos, riscos).
-- `prototipo/`: protótipo navegável (12 áreas, 4 perfis, cobrança com histórico e auditoria salvos no navegador, PWA).
-- `landing/`: landing page de provedor (planos, consulta de cobertura por CEP que abre o WhatsApp).
-- `assets/`: logo, logo branco e ícone da marca fictícia.
+- `index.html`: apresentação da proposta para a diretoria do provedor.
+- `landing/`: landing page comercial (planos, cobertura por CEP com envio ao WhatsApp).
+- `prototipo/`: protótipo navegável (12 áreas, 4 perfis de acesso, cobrança com histórico e auditoria salvos no navegador, PWA).
 
-O WhatsApp da landing aponta para o número da Site Express, para que o teste de um prospect chegue até você.
+**Jandaia Fibra não existe. Todos os números, planos e pessoas são fictícios.** O WhatsApp da landing aponta para a Site Express, para que quem testar a página fale com a gente.
 
 ## Rodar localmente
 
 ```bash
-cd provedores
 python -m http.server 8765
 ```
 

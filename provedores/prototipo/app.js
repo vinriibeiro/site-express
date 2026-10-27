@@ -1,4 +1,4 @@
-// Maresia OS · protótipo navegável. Roteamento por hash, perfis de acesso, cobrança com histórico e auditoria persistidos no navegador.
+// Jandaia OS · protótipo navegável. Roteamento por hash, perfis de acesso, cobrança com histórico e auditoria persistidos no navegador.
 (function(){
   const G = window.GN, $ = s => document.querySelector(s), view = $('#view');
   const brl = v => v.toLocaleString('pt-BR', { style:'currency', currency:'BRL', maximumFractionDigits: v >= 1000 ? 0 : 2 });
@@ -11,8 +11,8 @@
 
   // Persistência local (no sistema real: PostgreSQL com histórico imutável)
   const store = {
-    get(k, d){ try { const v = localStorage.getItem('mfos:' + k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
-    set(k, v){ try { localStorage.setItem('mfos:' + k, JSON.stringify(v)); } catch(e){} }
+    get(k, d){ try { const v = localStorage.getItem('jdos:' + k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
+    set(k, v){ try { localStorage.setItem('jdos:' + k, JSON.stringify(v)); } catch(e){} }
   };
   const extras = store.get('tentativas', {});
   Object.entries(extras).forEach(([cid, list]) => {
@@ -118,8 +118,8 @@
     const emAberto = G.cobrancas.filter(c => c.status !== 'Pagamento confirmado'), atraso = emAberto.reduce((a, c) => a + c.aberto, 0);
     const recuperado = G.cobrancas.filter(c => c.status === 'Pagamento confirmado').reduce((a, c) => a + c.aberto, 0);
     const att = [
-      { sev:'cr', t:`OLT-02 (Jardim América) fora do ar há 47 min`, p:`412 clientes afetados · 23 chamados abertos desde a queda · responsável: ${primeiro('u10')}`, go:'monitor' },
-      { sev:'cr', t:`Cancelamentos em out/26 acima da média: ${K.cancelMes} contra 31 da média de 5 meses`, p:`Instabilidade é o 1º motivo; 38% vêm do Jardim América. Revisar junto com o incidente acima.`, go:'retencao' },
+      { sev:'cr', t:`OLT-02 (Vila Nova) fora do ar há 47 min`, p:`412 clientes afetados · 23 chamados abertos desde a queda · responsável: ${primeiro('u10')}`, go:'monitor' },
+      { sev:'cr', t:`Cancelamentos em out/26 acima da média: ${K.cancelMes} contra 31 da média de 5 meses`, p:`Instabilidade é o 1º motivo; 38% vêm do Vila Nova. Revisar junto com o incidente acima.`, go:'retencao' },
       { sev:'at', t:`${sem} clientes em atraso sem tratativa há mais de 72h`, p:`Somam ${brl(G.cobrancas.filter(semTratativa).reduce((a, c) => a + c.aberto, 0))} em aberto. ${pv} promessas de pagamento já venceram.`, go:'cobranca' },
       { sev:'at', t:`${osAtr} ordens de serviço atrasadas`, p:`Maior concentração: ${primeiro('u8')} (técnico em período de adaptação).`, go:'os' },
       { sev:'info', t:`Exame ocupacional vencido (1) e férias vencidas (1)`, p:`RH já foi alertado em 20/10. Aparece aqui porque passou de 7 dias sem solução.`, go:'rh' },
@@ -433,7 +433,7 @@
     <div class="card sec"><h2>Relatórios prontos</h2><div class="tbl-wrap"><table><thead><tr><th>Relatório</th><th>Para quem</th><th>Frequência</th><th></th></tr></thead><tbody>
       ${[['Resumo executivo da semana','Diretoria','Toda segunda, 7h (e-mail/WhatsApp)'],['Cobrança por atendente','Diretoria e supervisão','Diário'],['Motivos de cancelamento','Diretoria e retenção','Mensal'],['SLA e retrabalho técnico','Supervisor técnico','Semanal'],['Vencimentos de RH (30/60/90 dias)','RH','Semanal'],['Fechamento de metas e bônus','Diretoria e RH','Mensal']].map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td><button class="btn btn-s" data-toast="Na versão real gera PDF e planilha. Exportações ficam registradas na auditoria.">Gerar</button></td></tr>`).join('')}
     </tbody></table></div></div>
-    <div class="card sec"><h2>Camada de dados para o Power BI</h2><p>Os indicadores são calculados uma única vez no Maresia OS e publicados em visões somente leitura, sem dados pessoais. O Power BI lê essas visões em vez de refazer as fórmulas, então o número do painel e o do relatório são sempre o mesmo.</p>
+    <div class="card sec"><h2>Camada de dados para o Power BI</h2><p>Os indicadores são calculados uma única vez no Jandaia OS e publicados em visões somente leitura, sem dados pessoais. O Power BI lê essas visões em vez de refazer as fórmulas, então o número do painel e o do relatório são sempre o mesmo.</p>
       <div class="tbl-wrap"><table><thead><tr><th>Visão</th><th>Conteúdo</th><th>Atualização</th></tr></thead><tbody>
       <tr><td class="prova">bi.fato_cobranca</td><td>Tentativas, resultado, canal, comprovação, valores recuperados</td><td>a cada 15 min</td></tr>
       <tr><td class="prova">bi.fato_cancelamento</td><td>Pedidos, motivos, ofertas, resultado, receita</td><td>a cada 15 min</td></tr>
@@ -506,7 +506,7 @@
     let r = rota();
     if (!pode(r)) { r = usuario().rotas[0]; history.replaceState(null, '', '#' + r); }
     const def = rotas.find(x => x.id === r);
-    $('#pgTitle').textContent = def.t; $('#pgSub').textContent = def.sub; document.title = def.t + ' · Maresia OS';
+    $('#pgTitle').textContent = def.t; $('#pgSub').textContent = def.sub; document.title = def.t + ' · Jandaia OS';
     $('#filters').style.visibility = ['cobranca','retencao','os','visao'].includes(r) ? 'visible' : 'hidden';
     nav();
     try { view.innerHTML = T[r](); } catch (e) { console.error(e); view.innerHTML = `<div class="card empty">Não foi possível carregar esta área. <button class="btn btn-s" onclick="location.reload()">Tentar de novo</button></div>`; }
@@ -523,7 +523,7 @@
     const pp = $('#pesoPub'); if (pp) pp.onclick = () => { audit('Enviou nova regra de pesos para aprovação', 'Metas', '', JSON.stringify(store.get('pesos', pesosPadrao))); toast('Enviado para aprovação da diretoria. Registrado na auditoria.'); };
     view.querySelectorAll('[data-regra]').forEach(c => c.onchange = () => { const R = store.get('regras', regrasPadrao), r = R.find(x => x.id === c.dataset.regra); r.on = c.checked; store.set('regras', R); audit(c.checked ? 'Ativou regra de automação' : 'Desativou regra de automação', 'Automações', '', r.se); toast('Regra ' + (c.checked ? 'ativada' : 'desativada') + '. Registrado na auditoria.'); render(); });
     const nt = $('#novaTarefa'); if (nt) nt.onclick = () => toast('No MVP: tarefa com responsável, prazo, prioridade, evidência e validação.');
-    const rd = $('#resetDemo'); if (rd) rd.onclick = () => { try { Object.keys(localStorage).filter(k => k.startsWith('mfos:')).forEach(k => localStorage.removeItem(k)); } catch(e){} location.reload(); };
+    const rd = $('#resetDemo'); if (rd) rd.onclick = () => { try { Object.keys(localStorage).filter(k => k.startsWith('jdos:')).forEach(k => localStorage.removeItem(k)); } catch(e){} location.reload(); };
   }
 
   $('#fRegiao').innerHTML += G.regioes.map(r => `<option>${r}</option>`).join('');

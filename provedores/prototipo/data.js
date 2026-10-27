@@ -1,12 +1,12 @@
 // DADOS DE SIMULAÇÃO. Gerados com semente fixa para que a demonstração seja sempre igual.
-// Na versão real, estes objetos vêm dos conectores (ERP, WhatsApp, Zabbix) e do banco do Maresia OS.
+// Na versão real, estes objetos vêm dos conectores (ERP, WhatsApp, Zabbix) e do banco do Jandaia OS.
 (function(){
   let s = 20261027;
   const rnd = () => (s = (s * 1664525 + 1013904223) % 4294967296) / 4294967296;
   const pick = a => a[Math.floor(rnd() * a.length)];
   const int = (a, b) => a + Math.floor(rnd() * (b - a + 1));
 
-  const regioes = ['Centro', 'Vila Nova', 'Boa Vista', 'Jardim América', 'Alto do Cruzeiro', 'Santa Luzia'];
+  const regioes = ['Centro', 'Bela Vista', 'São José', 'Planalto', 'Vila Nova', 'Morada do Sol'];
   const nomes = ['Ana','Bruno','Carla','Diego','Elaine','Fábio','Gisele','Hugo','Ingrid','João','Karina','Lucas','Marta','Nilton','Olívia','Paulo','Queila','Rafael','Sandra','Tiago','Úrsula','Vítor','Wellington','Yasmin','Zeca','Adriana','Bernardo','Cíntia','Davi','Érica'];
   const sobren = ['Silva','Souza','Lima','Alves','Barbosa','Ferreira','Gomes','Melo','Cavalcanti','Araújo','Pereira','Nascimento','Rocha','Santos','Oliveira'];
   const pessoa = () => pick(nomes) + ' ' + pick(sobren);
@@ -27,7 +27,7 @@
   ];
   const cobradoras = equipe.filter(e => ['u1','u2','u3'].includes(e.id));
 
-  const planos = [{n:'200 Mega',v:79.9},{n:'400 Mega',v:99.9},{n:'600 Mega',v:119.9},{n:'800 Mega',v:149.9}];
+  const planos = [{n:'300 Mega',v:79.9},{n:'500 Mega',v:99.9},{n:'700 Mega',v:119.9},{n:'1 Giga',v:149.9}];
   const resultados = ['Não atendeu','Mensagem enviada','Aguardando retorno','Promessa de pagamento','Negociação em andamento','Pagamento confirmado','Cliente sem interesse','Necessita intervenção'];
   const canais = ['Ligação','WhatsApp','SMS','E-mail','Presencial'];
 
@@ -67,7 +67,7 @@
   for (let i = 0; i < 34; i++) {
     const p = pick(planos), mot = rnd() < .34 ? motivos[0] : pick(motivos);
     const st = i < 9 ? 'Pendente' : rnd() < .42 ? 'Revertido' : 'Cancelado';
-    cancelamentos.push({ id:'X' + (500 + i), cliente:pessoa(), regiao: mot === motivos[0] && rnd() < .5 ? 'Jardim América' : pick(regioes), plano:p.n, mensal:p.v,
+    cancelamentos.push({ id:'X' + (500 + i), cliente:pessoa(), regiao: mot === motivos[0] && rnd() < .5 ? 'Vila Nova' : pick(regioes), plano:p.n, mensal:p.v,
       data: iso(dia(-int(0, 26))), motivo:mot, secundario: rnd() < .5 ? pick(motivos) : '', resp: pick(['u4','u5']).toString(),
       osTecnicas: mot === motivos[0] ? int(2, 5) : int(0, 1), reclamacoes: int(0, 4), oferta: st === 'Revertido' ? pick(ofertas.slice(0, 4)) : st === 'Pendente' ? '' : pick(ofertas),
       status:st, clienteDesde: 2019 + int(0, 6) });
@@ -101,18 +101,18 @@
   const equipamentos = [
     { nome:'BRAS-01 · MikroTik CCR2116', tipo:'Concentrador', pop:'POP Centro', st:'ok', cpu:41, mem:52, lat:2, perda:0, x:46, y:42 },
     { nome:'Borda · Link IP 1 (10G)', tipo:'Link', pop:'POP Centro', st:'ok', uso:63, lat:4, perda:0, x:49, y:37 },
-    { nome:'Borda · Link IP 2 (10G)', tipo:'Link', pop:'POP Alto do Cruzeiro', st:'at', uso:88, lat:19, perda:1.2, x:32, y:58 },
-    { nome:'OLT-02 · Jardim América', tipo:'OLT', pop:'POP Jardim América', st:'cr', cpu:0, mem:0, lat:null, perda:100, x:63, y:78 },
+    { nome:'Borda · Link IP 2 (10G)', tipo:'Link', pop:'POP Bela Vista', st:'at', uso:88, lat:19, perda:1.2, x:32, y:58 },
+    { nome:'OLT-02 · Vila Nova', tipo:'OLT', pop:'POP Vila Nova', st:'cr', cpu:0, mem:0, lat:null, perda:100, x:63, y:78 },
     { nome:'OLT-01 · Centro', tipo:'OLT', pop:'POP Centro', st:'ok', cpu:28, mem:44, lat:3, perda:0, x:44, y:46 },
-    { nome:'OLT-03 · Vila Nova', tipo:'OLT', pop:'POP Vila Nova', st:'ok', cpu:35, mem:40, lat:5, perda:0, x:25, y:44 },
-    { nome:'SW-Core · Jardim SP', tipo:'Switch', pop:'POP Jd. São Paulo', st:'ok', cpu:18, mem:30, lat:3, perda:0, x:58, y:24 },
-    { nome:'SW-Acesso · Santa Luzia', tipo:'Switch', pop:'POP Santa Luzia', st:'at', cpu:76, mem:81, lat:12, perda:.4, x:72, y:52 },
+    { nome:'OLT-03 · São José', tipo:'OLT', pop:'POP São José', st:'ok', cpu:35, mem:40, lat:5, perda:0, x:25, y:44 },
+    { nome:'SW-Core · Jardim SP', tipo:'Switch', pop:'POP Planalto', st:'ok', cpu:18, mem:30, lat:3, perda:0, x:58, y:24 },
+    { nome:'SW-Acesso · Morada do Sol', tipo:'Switch', pop:'POP Morada do Sol', st:'at', cpu:76, mem:81, lat:12, perda:.4, x:72, y:52 },
   ];
   const incidentes = [
-    { id:'INC-311', titulo:'OLT-02 Jardim América sem resposta (ICMP/SNMP)', inicio: iso(new Date(hoje.getTime() - 47*60000)), sev:'cr', afetados:412, status:'Aberto', resp:'u10', regiao:'Jardim América', chamados:23 },
-    { id:'INC-310', titulo:'Link IP 2 com perda de pacotes acima de 1%', inicio: iso(new Date(hoje.getTime() - 3.2*3600000)), sev:'at', afetados:0, status:'Em análise', resp:'u10', regiao:'Alto do Cruzeiro', chamados:4 },
-    { id:'INC-307', titulo:'Queda de energia no POP Vila Nova', inicio: iso(dia(-2)), sev:'cr', afetados:288, status:'Resolvido', resp:'u10', regiao:'Vila Nova', chamados:31, duracao:'1h52' },
-    { id:'INC-302', titulo:'Rompimento de fibra · Rua do Comércio', inicio: iso(dia(-6)), sev:'cr', afetados:96, status:'Resolvido', resp:'u10', regiao:'Centro', chamados:14, duracao:'4h10' },
+    { id:'INC-311', titulo:'OLT-02 Vila Nova sem resposta (ICMP/SNMP)', inicio: iso(new Date(hoje.getTime() - 47*60000)), sev:'cr', afetados:412, status:'Aberto', resp:'u10', regiao:'Vila Nova', chamados:23 },
+    { id:'INC-310', titulo:'Link IP 2 com perda de pacotes acima de 1%', inicio: iso(new Date(hoje.getTime() - 3.2*3600000)), sev:'at', afetados:0, status:'Em análise', resp:'u10', regiao:'Bela Vista', chamados:4 },
+    { id:'INC-307', titulo:'Queda de energia no POP São José', inicio: iso(dia(-2)), sev:'cr', afetados:288, status:'Resolvido', resp:'u10', regiao:'São José', chamados:31, duracao:'1h52' },
+    { id:'INC-302', titulo:'Rompimento de fibra · Av. Central', inicio: iso(dia(-6)), sev:'cr', afetados:96, status:'Resolvido', resp:'u10', regiao:'Centro', chamados:14, duracao:'4h10' },
   ];
   const latencia = Array.from({length:48}, (_, i) => +(3 + Math.sin(i/5)*1.5 + rnd()*1.5 + (i > 40 ? 9 + rnd()*6 : 0)).toFixed(1));
 
@@ -131,7 +131,7 @@
   // Tarefas (módulo de responsabilidades)
   const tarefas = [
     { id:'T-118', titulo:'Conferir fechamento de caixa da semana', resp:'u12', valida:'u11', prazo: iso(dia(-1)), prio:'Alta', status:'Atrasada', evid:true },
-    { id:'T-121', titulo:'Renovar alvará de funcionamento do POP Alto do Cruzeiro', resp:'u11', valida:'dir', prazo: iso(dia(5)), prio:'Crítica', status:'Em andamento', evid:true },
+    { id:'T-121', titulo:'Renovar alvará de funcionamento do POP Bela Vista', resp:'u11', valida:'dir', prazo: iso(dia(5)), prio:'Crítica', status:'Em andamento', evid:true },
     { id:'T-124', titulo:'Inventário de ONUs em estoque', resp:'u9', valida:'u10', prazo: iso(dia(2)), prio:'Média', status:'Aberta', evid:true },
     { id:'T-125', titulo:'Ligar para 12 promessas vencidas', resp:'u2', valida:'u4', prazo: iso(dia(0)), prio:'Alta', status:'Em andamento', evid:false },
     { id:'T-112', titulo:'Revisar contrato do link IP 2', resp:'dir', valida:'dir', prazo: iso(dia(-4)), prio:'Alta', status:'Aguardando validação', evid:true },
