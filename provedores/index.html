@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Maresia OS · proposta</title>
+<link rel="icon" href="assets/icone.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: memorando em uma coluna de leitura, faixa verde-petróleo da marca no topo como a lateral do sistema; telas em grade */
+*{box-sizing:border-box}
+html,body{margin:0}
+:root{
+  --fundo:#f3f6f5; --papel:#fff; --tinta:#10201f; --tinta2:#41524f; --tinta3:#667775;
+  --linha:#dde6e4; --nav:#0b2e2c; --nav-tx:#bfdcd8; --marca:#0f766e; --laranja:#d63e5c; --laranja-bg:#fcebee;
+  --ok:#17703f; --ok-bg:#eaf5ee; --cr:#b42318;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --fundo:#0a1716; --papel:#112423; --tinta:#e8f1ef; --tinta2:#bccfcb; --tinta3:#88a19d; --linha:#1f3b39;
+  --nav:#071311; --marca:#4fd1c5; --laranja:#f27a92; --laranja-bg:#3a1520; --ok:#5cc489; --ok-bg:#132a1d; --cr:#f0756a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --fundo:#0a1716; --papel:#112423; --tinta:#e8f1ef; --tinta2:#bccfcb; --tinta3:#88a19d; --linha:#1f3b39;
+  --nav:#071311; --marca:#4fd1c5; --laranja:#f27a92; --laranja-bg:#3a1520; --ok:#5cc489; --ok-bg:#132a1d; --cr:#f0756a; color-scheme:dark}
+body{font-family:var(--sans);background:var(--fundo);color:var(--tinta);font-size:16px;line-height:1.6}
+.band{background:var(--nav);color:#fff;padding:44px 16px 40px}
+.band-in,.wrap{max-width:860px;margin:0 auto}
+.wide{max-width:1180px;margin:0 auto}
+.logo{height:46px;display:block;margin-bottom:26px}
+.eyebrow{font-family:var(--mono);font-size:12.5px;color:#f7a3b4;letter-spacing:.04em;text-transform:uppercase}
+h1{font-size:34px;line-height:1.2;margin:8px 0 14px;font-weight:600;letter-spacing:-.01em}
+.lead{color:var(--nav-tx);font-size:17.5px;max-width:700px;margin:0}
+.wrap,.wide{padding:0 16px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--linha);border:1px solid var(--linha);border-radius:12px;overflow:hidden;margin:-22px auto 0;position:relative}
+.stat{background:var(--papel);padding:18px 18px 16px}
+.stat b{display:block;font-size:30px;font-weight:600;color:var(--marca);font-variant-numeric:tabular-nums;line-height:1.1}
+.stat span{font-size:13.5px;color:var(--tinta2);display:block;margin-top:6px;line-height:1.4}
+section{margin-top:56px}
+h2{font-size:24px;margin:0 0 6px;font-weight:600;letter-spacing:-.01em}
+h3{font-size:17px;margin:0 0 6px;font-weight:600}
+.sub{color:var(--tinta2);margin:0 0 22px}
+p{margin:0 0 14px}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.card{background:var(--papel);border:1px solid var(--linha);border-radius:12px;padding:18px 20px}
+.card p{color:var(--tinta2);font-size:15px;margin:0}
+.card .cons{margin-top:10px;font-size:13.5px;color:var(--cr)}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+.steps li{position:relative;padding:0 0 18px 50px}
+.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;width:32px;height:32px;border-radius:50%;background:var(--marca);color:#fff;display:grid;place-items:center;font-weight:600;font-size:14px}
+.steps li b{display:block}
+.steps li span{color:var(--tinta2);font-size:15px}
+table{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--papel);border:1px solid var(--linha);border-radius:12px;overflow:hidden}
+th{text-align:left;font-weight:600;font-size:13px;color:var(--tinta3);padding:11px 14px;border-bottom:1px solid var(--linha);background:var(--fundo)}
+td{padding:11px 14px;border-bottom:1px solid var(--linha);vertical-align:top}
+tr:last-child td{border-bottom:0}
+.tbl{overflow-x:auto;border-radius:12px}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 9px;border-radius:10px;white-space:nowrap}
+.p1{background:var(--laranja-bg);color:var(--laranja)} .p2{background:#e0f2ef;color:var(--marca)} .p3{background:var(--fundo);color:var(--tinta2);border:1px solid var(--linha)}
+:root[data-theme="dark"] .p2{background:#12302d} @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .p2{background:#12302d}}
+.persona{display:grid;grid-template-columns:200px 1fr;gap:18px;padding:18px 0;border-top:1px solid var(--linha)}
+.persona h3{color:var(--marca)}
+.persona ul{margin:0;padding-left:18px;color:var(--tinta2)} .persona li{margin-bottom:6px}
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.shot{background:var(--papel);border:1px solid var(--linha);border-radius:12px;overflow:hidden;text-decoration:none;color:inherit;display:block;transition:border-color .15s}
+.shot:hover{border-color:var(--marca)}
+.frame{position:relative;height:210px;overflow:hidden;background:var(--fundo);border-bottom:1px solid var(--linha)}
+.frame iframe{position:absolute;top:0;left:0;width:1360px;height:900px;border:0;transform:scale(.27);transform-origin:0 0;pointer-events:none}
+.shot .cap{padding:12px 14px}
+.shot .cap b{display:block;font-size:15px}
+.shot .cap span{font-size:13.5px;color:var(--tinta2)}
+.cta{display:flex;gap:16px;align-items:center;justify-content:space-between;background:var(--nav);color:#fff;border-radius:14px;padding:24px 26px;margin-top:20px;flex-wrap:wrap}
+.cta p{margin:0;color:var(--nav-tx)}
+.btn{display:inline-block;background:var(--laranja);color:#fff;text-decoration:none;font-weight:600;padding:11px 20px;border-radius:9px;white-space:nowrap}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 4px}
+.flow span{background:var(--papel);border:1px solid var(--linha);border-radius:8px;padding:6px 11px;font-size:13.5px}
+.flow i{color:var(--tinta3);font-style:normal}
+.arch{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;align-items:stretch}
+.arch .col{background:var(--papel);border:1px solid var(--linha);border-radius:12px;padding:14px 16px}
+.arch .col h3{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--tinta3)}
+.arch .col div{padding:7px 10px;border-radius:7px;background:var(--fundo);margin-top:7px;font-size:14px}
+.arch .mid div{background:#e0f2ef;color:var(--marca);font-weight:500}
+:root[data-theme="dark"] .arch .mid div{background:#12302d} @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .arch .mid div{background:#12302d}}
+.note{background:var(--laranja-bg);border-radius:10px;padding:14px 16px;font-size:14.5px;color:var(--tinta)}
+.mono{font-family:var(--mono);font-size:13px}
+.q{counter-reset:q;list-style:none;padding:0;margin:0}
+.q li{padding:12px 0 12px 36px;border-top:1px solid var(--linha);position:relative}
+.q li:before{counter-increment:q;content:counter(q);position:absolute;left:0;top:12px;font-family:var(--mono);color:var(--laranja);font-weight:500}
+.q li span{display:block;font-size:14px;color:var(--tinta2)}
+footer{margin:70px auto 40px;color:var(--tinta3);font-size:13px;text-align:center;padding:0 16px}
+@media (max-width:860px){
+  .stats{grid-template-columns:repeat(2,1fr)} .cards,.arch{grid-template-columns:1fr} .shots{grid-template-columns:1fr 1fr}
+  .persona{grid-template-columns:1fr;gap:6px} h1{font-size:27px}
+}
+@media (max-width:560px){.shots{grid-template-columns:1fr} .stat b{font-size:24px} .band{padding-top:30px}}
+</style>
+</head>
+<body>
+<header class="band">
+  <div class="band-in">
+    <img src="assets/logo-branco.png" alt="Maresia Fibra · Provedor de Internet" class="logo">
+    <div class="eyebrow">Proposta · Maresia OS</div>
+    <h1>Administrar a Maresia de qualquer lugar, com números em que dá para confiar</h1>
+    <p class="lead">Uma central de gestão que fica por cima do ERP (IXC, SGP, MK-Auth, Hubsoft…), do WhatsApp e da rede. Mostra o que está acontecendo, quem fez o quê e o que precisa da sua decisão, sem depender de planilha, cobrança verbal ou presença na loja.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><b>12</b><span>áreas no protótipo, já navegáveis no computador e no celular</span></div>
+    <div class="stat"><b>4</b><span>perfis de acesso: diretoria, cobrança, supervisor técnico e RH</span></div>
+    <div class="stat"><b>0</b><span>alterações no ERP, no WhatsApp ou nos equipamentos: tudo começa em leitura</span></div>
+    <div class="stat"><b>100%</b><span>das tratativas de cobrança com autor, horário e histórico que não se apaga</span></div>
+  </div>
+
+  <section>
+    <h2>O que está difícil hoje</h2>
+    <p class="sub">O que levantamos sobre a operação, e o custo de cada ponto para quem administra.</p>
+    <div class="cards">
+      <div class="card"><h3>A cobrança não deixa rastro confiável</h3><p>Não há como saber, sem perguntar, se cada cliente suspenso foi contatado, por quem, por qual canal e com que resultado. "Liguei" e "liguei e o cliente atendeu" ficam iguais.</p><div class="cons">Dinheiro que poderia ser recuperado fica parado, e não dá para cobrar a equipe com base em fatos.</div></div>
+      <div class="card"><h3>O motivo do cancelamento está em dois sistemas</h3><p>Para entender por que um cliente saiu é preciso cruzar à mão o ERP com o WhatsApp. Ninguém faz isso todo mês.</p><div class="cons">A empresa perde clientes pelo mesmo problema várias vezes sem perceber o padrão.</div></div>
+      <div class="card"><h3>Produtividade medida no olho</h3><p>Não existe uma régua clara por função. Um técnico com OS complexas e um atendente de cobrança não podem ser comparados pela quantidade de tarefas.</p><div class="cons">Avaliação e bônus viram conversa difícil, e quem trabalha bem não aparece.</div></div>
+      <div class="card"><h3>Tudo depende de alguém estar lá</h3><p>Tarefas combinadas no WhatsApp, checklists em outro sistema, férias e exames controlados à parte, Power BI que ainda não fechou.</p><div class="cons">A diretoria precisa estar presente para saber o que acontece, e férias ou uma saída de funcionário viram risco.</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Como o Maresia OS resolve</h2>
+    <p class="sub">Cada módulo responde a um problema concreto. O ERP e o WhatsApp continuam sendo usados como hoje.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Problema</th><th>O que o sistema faz</th><th>Prioridade</th></tr></thead>
+      <tbody>
+        <tr><td><b>Cobrança sem rastro</b></td><td>Fila de clientes em atraso vinda do ERP, distribuída por atendente. Cada tentativa registra canal, resultado, horário e autor. Ligações e mensagens confirmadas pelo PABX ou pelo WhatsApp aparecem como <b>comprovadas</b>; o resto aparece como manual. Ninguém apaga histórico.</td><td><span class="pill p1">Primeiro</span></td></tr>
+        <tr><td><b>Cancelamentos sem explicação</b></td><td>Ficha única do pedido: motivo, histórico de atendimento, OS técnicas anteriores, oferta feita e resultado. Indicadores por motivo, região e receita perdida ou preservada.</td><td><span class="pill p1">Primeiro</span></td></tr>
+        <tr><td><b>Tarefas informais</b></td><td>Toda atividade tem responsável, prazo, prioridade, evidência e quem valida. Matriz de quem executa, confere e aprova cada processo, com substituto para férias.</td><td><span class="pill p1">Primeiro</span></td></tr>
+        <tr><td><b>Não dá para ver de longe</b></td><td>Visão Geral com os números do dia e a área <b>Atenção da Diretoria</b>, que mostra só o que precisa de decisão.</td><td><span class="pill p1">Primeiro</span></td></tr>
+        <tr><td><b>Produtividade sem régua</b></td><td>Índice por função que combina volume, qualidade, prazo e retrabalho, ajustado por complexidade e tempo de casa.</td><td><span class="pill p2">Em seguida</span></td></tr>
+        <tr><td><b>Bônus subjetivo</b></td><td>Metas e pesos configuráveis, ranking e simulação. O pagamento sempre passa pela aprovação da diretoria.</td><td><span class="pill p2">Em seguida</span></td></tr>
+        <tr><td><b>RH controlado à parte</b></td><td>Férias, exames, NRs, documentos e checklists de admissão e desligamento, com alerta antes de vencer e acesso restrito e registrado.</td><td><span class="pill p2">Em seguida</span></td></tr>
+        <tr><td><b>Queda de rede descoberta pelo cliente</b></td><td>Painel de NOC com Zabbix e SNMP, incidente aberto automaticamente e cruzamento entre a queda e os chamados que ela gerou.</td><td><span class="pill p3">Depois</span></td></tr>
+        <tr><td><b>Alertas demais ou de menos</b></td><td>Motor de regras com gravidade: o operacional vai para o supervisor, e a diretoria recebe só o crítico ou o que passou do prazo.</td><td><span class="pill p2">Em seguida</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>O que muda para cada pessoa</h2>
+    <p class="sub">Cada perfil vê só o que precisa para trabalhar.</p>
+    <div class="persona"><h3>Diretoria</h3><ul>
+      <li>Abre o celular e vê em segundos: clientes ativos, faturamento, atraso, cancelamentos, OS atrasadas e rede.</li>
+      <li>Recebe só o que é crítico: queda grande de rede, alta anormal de cancelamentos, casos de cobrança parados.</li>
+      <li>Aprova bônus, descontos de retenção acima do limite e regras novas de metas.</li></ul></div>
+    <div class="persona"><h3>Cobrança e atendimento</h3><ul>
+      <li>Começa o dia com a própria fila: quem ligar primeiro, promessas que venceram e retornos agendados.</li>
+      <li>Registra a tentativa em poucos cliques; a próxima tentativa é agendada sozinha conforme o resultado.</li>
+      <li>Vê o próprio desempenho com as mesmas regras que a diretoria vê.</li></ul></div>
+    <div class="persona"><h3>Equipe técnica</h3><ul>
+      <li>OS atrasadas aparecem para o supervisor antes de virarem reclamação.</li>
+      <li>SLA, retrabalho e tempo médio por técnico, considerando o tipo de serviço.</li>
+      <li>Incidentes de rede com histórico de duração e quantos clientes foram afetados.</li></ul></div>
+    <div class="persona"><h3>RH e administrativo</h3><ul>
+      <li>Alerta de exames, férias e NRs 30 dias antes de vencer.</li>
+      <li>Checklists de admissão e desligamento, incluindo revogar acesso aos sistemas de quem saiu.</li>
+      <li>Dados pessoais protegidos: CPF, endereço e salário só para quem tem permissão, e todo acesso fica registrado.</li></ul></div>
+  </section>
+
+  <section>
+    <h2>As telas do protótipo</h2>
+    <p class="sub">Telas reais do protótipo, com dados fictícios de demonstração. Os números não são da Maresia. Clique para abrir.</p>
+  </section>
+</div>
+<div class="wide">
+    <div class="shots">
+      <a class="shot" href="prototipo/#visao" target="_blank" rel="noopener"><div class="frame"><iframe src="prototipo/?embed#visao" loading="lazy" tabindex="-1" title="Visão Geral"></iframe></div><div class="cap"><b>Visão Geral</b><span>Os números do mês e a Atenção da Diretoria.</span></div></a>
+      <a class="shot" href="prototipo/#cobranca" target="_blank" rel="noopener"><div class="frame"><iframe src="prototipo/?embed#cobranca" loading="lazy" tabindex="-1" title="Cobranças"></iframe></div><div class="cap"><b>Financeiro e Cobranças</b><span>Fila por atendente, contatos comprovados e auditoria.</span></div></a>
+      <a class="shot" href="prototipo/#retencao" target="_blank" rel="noopener"><div class="frame"><iframe src="prototipo/?embed#retencao" loading="lazy" tabindex="-1" title="Retenção"></iframe></div><div class="cap"><b>Clientes e Retenção</b><span>Motivos, regiões, receita perdida e clientes em risco.</span></div></a>
+      <a class="shot" href="prototipo/#monitor" target="_blank" rel="noopener"><div class="frame"><iframe src="prototipo/?embed#monitor" loading="lazy" tabindex="-1" title="Monitoramento"></iframe></div><div class="cap"><b>Central de Monitoramento</b><span>Equipamentos, POPs, latência e quedas × chamados.</span></div></a>
+      <a class="shot" href="prototipo/#equipes" target="_blank" rel="noopener"><div class="frame"><iframe src="prototipo/?embed#equipes" loading="lazy" tabindex="-1" title="Equipes"></iframe></div><div class="cap"><b>Equipes e Produtividade</b><span>Índice por função, tarefas e matriz de responsabilidades.</span></div></a>
+      <a class="shot" href="prototipo/#metas" target="_blank" rel="noopener"><div class="frame"><iframe src="prototipo/?embed#metas" loading="lazy" tabindex="-1" title="Metas"></iframe></div><div class="cap"><b>Metas e Bonificações</b><span>Pesos ajustáveis, ranking e bônus simulado.</span></div></a>
+    </div>
+</div>
+<div class="wrap">
+  <section style="margin-top:20px">
+    <div class="cta"><div><h3 style="margin:0 0 4px">Abrir o protótipo completo</h3><p>12 áreas. No menu lateral, "Ver como" mostra o sistema pelos olhos de cada perfil.</p></div><a class="btn" href="prototipo/" target="_blank" rel="noopener">Abrir o Maresia OS →</a></div>
+    <p class="note" style="margin-top:14px"><b>Para testar na reunião:</b> em Financeiro e Cobranças, abra um cliente, registre uma tentativa e veja o histórico, o agendamento automático e a linha nova na auditoria (em Configurações). Fica salvo neste navegador.</p>
+  </section>
+
+  <section>
+    <h2>Como os processos vão funcionar</h2>
+    <p class="sub">Os quatro fluxos que tiram a diretoria do acompanhamento manual.</p>
+    <h3>Cobrança</h3>
+    <div class="flow"><span>ERP aponta atraso</span><i>→</i><span>Cliente entra na fila de uma atendente</span><i>→</i><span>Tentativa registrada (canal, resultado)</span><i>→</i><span>PABX/WhatsApp comprova</span><i>→</i><span>Próxima tentativa agendada</span><i>→</i><span>ERP confirma pagamento</span></div>
+    <p class="sub" style="font-size:14.5px">Sem tratativa em 48h vira pendência; em 72h vai ao supervisor. Promessa vencida gera retorno no dia seguinte.</p>
+    <h3>Cancelamento</h3>
+    <div class="flow"><span>Pedido no atendimento</span><i>→</i><span>Vai para a retenção com histórico completo</span><i>→</i><span>Oferta registrada</span><i>→</i><span>Revertido ou cancelado</span><i>→</i><span>Motivo entra nos indicadores</span></div>
+    <h3 style="margin-top:14px">Tarefas</h3>
+    <div class="flow"><span>Tarefa criada com responsável e prazo</span><i>→</i><span>Execução com evidência</span><i>→</i><span>Validação por outra pessoa</span><i>→</i><span>Concluída ou reaberta</span></div>
+    <h3 style="margin-top:14px">Alertas</h3>
+    <div class="flow"><span>Regra dispara</span><i>→</i><span>Responsável do setor</span><i>→</i><span>Fora do prazo: supervisor</span><i>→</i><span>Crítico ou parado: diretoria</span></div>
+  </section>
+
+  <section>
+    <h2>Arquitetura</h2>
+    <p class="sub">Simples de manter e barata de hospedar. Nada de estrutura complexa antes de precisar.</p>
+    <div class="arch">
+      <div class="col"><h3>Fontes</h3><div>ERP (clientes, faturas, OS)</div><div>WhatsApp (atendimentos)</div><div>PABX (ligações)</div><div>Zabbix / SNMPv3 / ICMP</div><div>Planilhas do sistema auxiliar</div></div>
+      <div class="col mid"><h3>Maresia OS</h3><div>Conectores independentes, só leitura</div><div>Fila de sincronização com nova tentativa</div><div>Regras de negócio e automações</div><div>PostgreSQL com histórico e auditoria</div><div>Perfis de acesso e registro de acessos</div></div>
+      <div class="col"><h3>Quem usa</h3><div>Painel web e app no celular (PWA)</div><div>Alertas por e-mail e WhatsApp</div><div>Relatórios PDF e planilha</div><div>Power BI pelas visões de dados</div></div>
+    </div>
+    <div class="tbl" style="margin-top:16px"><table><thead><tr><th>Escolha</th><th>Por quê</th></tr></thead><tbody>
+      <tr><td><b>Next.js + TypeScript</b></td><td>Um só projeto para telas e API, tipagem que evita erro de cálculo, roda em hospedagem barata.</td></tr>
+      <tr><td><b>PostgreSQL</b></td><td>Banco robusto, gratuito, com histórico imutável e visões prontas para o Power BI.</td></tr>
+      <tr><td><b>Fila de tarefas (pg-boss / BullMQ)</b></td><td>Sincroniza ERP e WhatsApp em segundo plano, com nova tentativa quando a API falha.</td></tr>
+      <tr><td><b>PWA</b></td><td>Instala no celular como aplicativo, sem custo de loja.</td></tr>
+      <tr><td><b>Ambientes separados</b></td><td>Teste e produção isolados, backup diário, credenciais guardadas em cofre e nunca no código.</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section>
+    <h2>Integrações</h2>
+    <p class="sub">Nada aqui é suposto: cada integração será confirmada com o fornecedor antes de ser construída. Sem integração, o módulo funciona com importação.</p>
+    <div class="tbl"><table><thead><tr><th>Sistema</th><th>O que buscamos</th><th>Fonte oficial de</th><th>Frequência</th><th>O que falta confirmar</th></tr></thead><tbody>
+      <tr><td><b>ERP</b> (IXC, SGP, MK-Auth…)</td><td>Clientes, contratos, faturas, pagamentos, OS, cancelamentos</td><td>Cliente e financeiro</td><td>15 min</td><td>Acesso à API, campos e limites do plano contratado</td></tr>
+      <tr><td><b>WhatsApp</b></td><td>Conversas, atendente, canal, tempos, entrega e leitura</td><td>Atendimento</td><td>Tempo real (webhook) ou 15 min</td><td>Se há API/webhook e quais dados expõe</td></tr>
+      <tr><td><b>PABX</b></td><td>Registro de chamadas para comprovar ligações</td><td>Prova de ligação</td><td>Diária ou em tempo real</td><td>Marca/modelo do PABX ou operadora de telefonia</td></tr>
+      <tr><td><b>Zabbix / SNMP</b></td><td>Status, latência, perda, CPU, sinal óptico</td><td>Rede</td><td>1 a 5 min</td><td>Se já existe Zabbix; acesso de leitura</td></tr>
+      <tr><td><b>Sistema auxiliar</b></td><td>Checklists, estoque, férias e exames</td><td>Migra para o Maresia OS</td><td>Importação única</td><td>Nome do sistema e formato de exportação</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section>
+    <h2>Plano de implantação</h2>
+    <p class="sub">Em etapas, cada uma já entrega algo usável. Prazos em faixa porque dependem das respostas das integrações.</p>
+    <ol class="steps">
+      <li><b>Etapa 0 · Diagnóstico e protótipo <span class="pill p1">feito</span></b><span>Mapa de problemas, integrações e este protótipo navegável.</span></li>
+      <li><b>Etapa 1 · MVP operacional · 5 a 7 semanas</b><span>Login e perfis, cobrança auditável, cancelamentos centralizados, tarefas, Visão Geral, integração de leitura com ERP e WhatsApp (ou importação, se a API não estiver disponível).</span></li>
+      <li><b>Etapa 2 · Gestão de pessoas · 4 a 5 semanas</b><span>RH, produtividade por função, metas, simulação de bônus com aprovação, automações e relatórios.</span></li>
+      <li><b>Etapa 3 · Rede · 3 a 4 semanas</b><span>Zabbix/SNMP em leitura, painel de NOC, incidentes, histórico de disponibilidade e cruzamento com chamados.</span></li>
+      <li><b>Etapa 4 · Inteligência · contínua</b><span>Anomalias, risco de cancelamento e projeções, só depois de alguns meses de dados confiáveis.</span></li>
+    </ol>
+    <p>Do sim ao primeiro módulo em uso: <b>cerca de 6 semanas</b>. Sistema completo, sem a etapa 4: <b>3 a 4 meses</b>.</p>
+  </section>
+
+  <section>
+    <h2>Custos mensais de operação</h2>
+    <p class="sub">Estimativa para o porte da Maresia, em faixas. Não inclui o desenvolvimento.</p>
+    <div class="tbl"><table><thead><tr><th>Item</th><th>Faixa mensal</th><th>Premissa</th></tr></thead><tbody>
+      <tr><td>Hospedagem da aplicação</td><td>R$ 60 a R$ 200</td><td>Servidor em nuvem ou VPS; até ~30 usuários simultâneos</td></tr>
+      <tr><td>Banco de dados gerenciado + backup</td><td>R$ 80 a R$ 250</td><td>Backup diário com 30 dias de retenção</td></tr>
+      <tr><td>Monitoramento e logs</td><td>R$ 0 a R$ 100</td><td>Planos gratuitos atendem no início</td></tr>
+      <tr><td>Envio de alertas (e-mail e WhatsApp)</td><td>R$ 30 a R$ 150</td><td>Depende do volume; pode usar a própria plataforma de WhatsApp, se ela permitir</td></tr>
+      <tr><td>APIs do ERP e WhatsApp</td><td>a confirmar</td><td>Alguns fornecedores cobram à parte pelo acesso à API</td></tr>
+      <tr><td><b>Total de infraestrutura</b></td><td><b>R$ 170 a R$ 700</b></td><td>Sem contar eventual taxa de API dos fornecedores</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section>
+    <h2>Riscos e como tratamos</h2>
+    <div class="tbl"><table><thead><tr><th>Risco</th><th>Como tratamos</th></tr></thead><tbody>
+      <tr><td>ERP ou WhatsApp sem API aberta</td><td>Começamos com importação agendada de relatórios e trocamos pelo conector quando houver acesso. O módulo funciona do mesmo jeito.</td></tr>
+      <tr><td>Equipe não registrar as tratativas</td><td>Registro em poucos cliques, fila pronta pela manhã e indicador de "sem tratativa" visível para o supervisor.</td></tr>
+      <tr><td>Índice de produtividade parecer injusto</td><td>Regras por função, publicadas para todos, com período de teste antes de valer para bônus.</td></tr>
+      <tr><td>Dados pessoais (LGPD)</td><td>Acesso por perfil, dados sensíveis ocultos por padrão, registro de cada acesso e visões do BI sem dados pessoais.</td></tr>
+      <tr><td>Mexer na rede por engano</td><td>Integrações de rede só em leitura. Nenhuma alteração automática em equipamentos.</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section>
+    <h2>O que precisamos saber para começar</h2>
+    <p class="sub">Só o que muda decisões. O resto ajustamos durante a implantação.</p>
+    <ol class="q">
+      <li>O contrato do ERP inclui acesso à API? Quem é o contato técnico no fornecedor?<span>Define se a cobrança começa integrada ou por importação.</span></li>
+      <li>A plataforma de WhatsApp tem API ou webhook no plano atual?<span>Define se os contatos por WhatsApp entram como comprovados desde o início.</span></li>
+      <li>Qual é o PABX ou a operadora de telefonia usada nas ligações de cobrança?<span>Sem isso, as ligações ficam como "manual".</span></li>
+      <li>Qual é o nome do sistema auxiliar de checklists, estoque e RH, e ele exporta planilha?<span>Define como migrar os dados de funcionários.</span></li>
+      <li>Já existe Zabbix ou outro monitoramento de rede funcionando?<span>Define o prazo da etapa de rede.</span></li>
+    </ol>
+  </section>
+</div>
+
+<footer>Maresia Fibra · Provedor de Internet · proposta do Maresia OS · documento para a diretoria · outubro/2026<br>Todos os números exibidos no protótipo são fictícios e servem apenas para demonstração.</footer>
+</body>
+</html>

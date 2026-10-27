@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0b2e2c">
+<title>Maresia OS · protótipo</title>
+<link rel="icon" href="../assets/icone.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="sim-bar">SIMULAÇÃO · dados fictícios para demonstração. Nenhum número desta tela é da Maresia.</div>
+<div class="shell">
+  <aside class="side" id="side">
+    <div class="side-top">
+      <img src="../assets/logo-branco.png" alt="Maresia" class="side-logo">
+      <span class="side-os">OS</span>
+    </div>
+    <nav id="nav"></nav>
+    <div class="side-foot">
+      <label for="perfil">Ver como</label>
+      <select id="perfil">
+        <option value="diretoria">Diretoria</option>
+        <option value="cobranca">Atendente de cobrança</option>
+        <option value="supervisor">Supervisor técnico</option>
+        <option value="rh">RH</option>
+      </select>
+    </div>
+  </aside>
+  <div class="main">
+    <header class="top">
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">☰</button>
+      <div class="top-title"><h1 id="pgTitle">Visão Geral</h1><span id="pgSub" class="muted"></span></div>
+      <div class="top-filters" id="filters">
+        <select id="fPeriodo" aria-label="Período"><option value="mes">Outubro/2026</option><option value="7d">Últimos 7 dias</option><option value="tri">Trimestre</option></select>
+        <select id="fRegiao" aria-label="Região"><option value="">Todas as regiões</option></select>
+      </div>
+      <div class="top-user"><span class="avatar" id="avatar">DI</span></div>
+    </header>
+    <main id="view" class="view" tabindex="-1"></main>
+  </div>
+</div>
+<div class="modal" id="modal" hidden><div class="modal-box" role="dialog" aria-modal="true"><div id="modalBody"></div></div></div>
+<div class="toast" id="toast" hidden></div>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
