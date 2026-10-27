@@ -34,25 +34,59 @@
   // Para consultar no console do navegador: siteExpressCliques()
   window.siteExpressCliques = lerCliques;
 
-  // ---- Meta Pixel (desativado enquanto não houver ID real) ----
+  // ---- Meta Pixel (só com ID configurado e depois do consentimento) ----
   var pixelId = String(config.metaPixelId || '').trim();
-  var pixelAtivo = /^\d{10,20}$/.test(pixelId);
+  var pixelConfigurado = /^\d{10,20}$/.test(pixelId);
+  var pixelCarregado = false;
+  var contatoEnviado = false;
+  var CHAVE_CONSENTIMENTO = 'siteExpress.consentimentoPixel';
+  var consentimentoSessao = null; // usado se o armazenamento estiver bloqueado
 
-  if (pixelAtivo) {
-    /* Código-base oficial do Meta Pixel, carregado só com ID configurado. */
+  function lerConsentimento() {
+    try {
+      var dados = JSON.parse(window.localStorage.getItem(CHAVE_CONSENTIMENTO));
+      if (dados && (dados.escolha === 'aceito' || dados.escolha === 'recusado')) return dados.escolha;
+    } catch (e) { /* armazenamento indisponível ou dado inválido */ }
+    return consentimentoSessao;
+  }
+
+  function salvarConsentimento(escolha) {
+    consentimentoSessao = escolha;
+    try {
+      window.localStorage.setItem(CHAVE_CONSENTIMENTO, JSON.stringify({ escolha: escolha, data: new Date().toISOString().slice(0, 10) }));
+    } catch (e) { /* vale só para esta visita */ }
+  }
+
+  function carregarPixel() {
+    if (!pixelConfigurado || pixelCarregado) return;
+    pixelCarregado = true;
+    /* Código-base oficial do Meta Pixel. */
     !function (f, b, e, v, n, t, s) {
       if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
       if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = [];
       t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
     }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    window.fbq('consent', 'grant');
     window.fbq('init', pixelId);
     window.fbq('track', 'PageView');
   }
 
+  function desligarPixel() {
+    if (typeof window.fbq === 'function') window.fbq('consent', 'revoke');
+    // Apaga os cookies que o Pixel cria neste domínio.
+    ['_fbp', '_fbc'].forEach(function (nome) {
+      document.cookie = nome + '=; Max-Age=0; path=/';
+      document.cookie = nome + '=; Max-Age=0; path=/; domain=' + location.hostname;
+      document.cookie = nome + '=; Max-Age=0; path=/; domain=.' + location.hostname;
+    });
+  }
+
+  // Contact = intenção de contato (clique no WhatsApp), não conversa nem venda.
+  // No máximo um por carregamento de página, qualquer que seja o botão.
   function eventoPixel(botao) {
-    if (pixelAtivo && typeof window.fbq === 'function') {
-      window.fbq('track', 'Contact', { content_name: 'whatsapp_' + botao });
-    }
+    if (contatoEnviado || !pixelCarregado || lerConsentimento() !== 'aceito' || typeof window.fbq !== 'function') return;
+    contatoEnviado = true;
+    window.fbq('track', 'Contact', { content_name: 'whatsapp_' + botao });
   }
 
   document.addEventListener('click', function (ev) {
@@ -62,6 +96,42 @@
     registrarClique(botao);
     eventoPixel(botao);
   });
+
+  // ---- Aviso de privacidade (consentimento do Meta Pixel) ----
+  var aviso = document.getElementById('aviso-privacidade');
+
+  function mostrarAviso() {
+    if (!aviso) return;
+    aviso.hidden = false;
+    document.body.classList.add('com-aviso');
+  }
+
+  function fecharAviso() {
+    if (!aviso) return;
+    aviso.hidden = true;
+    document.body.classList.remove('com-aviso');
+  }
+
+  if (pixelConfigurado && aviso) {
+    aviso.addEventListener('click', function (ev) {
+      var botao = ev.target.closest ? ev.target.closest('[data-consentimento]') : null;
+      if (!botao) return;
+      var escolha = botao.getAttribute('data-consentimento');
+      salvarConsentimento(escolha);
+      fecharAviso();
+      if (escolha === 'aceito') carregarPixel(); else desligarPixel();
+    });
+
+    document.querySelectorAll('[data-preferencias]').forEach(function (link) {
+      link.hidden = false;
+      link.addEventListener('click', function (ev) { ev.preventDefault(); mostrarAviso(); });
+    });
+
+    var escolhaAtual = lerConsentimento();
+    if (escolhaAtual === 'aceito') carregarPixel();
+    if (!escolhaAtual || location.hash === '#preferencias') mostrarAviso();
+    window.addEventListener('hashchange', function () { if (location.hash === '#preferencias') mostrarAviso(); });
+  }
 
   // ---- Animação discreta de entrada ----
   var reduzir = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

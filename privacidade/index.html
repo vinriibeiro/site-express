@@ -6,13 +6,13 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Privacidade · Site Express</title>
-  <meta name="description" content="Como a página da Site Express trata dados: sem formulários, sem cookies, contador de cliques só no seu navegador e Meta Pixel desativado.">
+  <meta name="description" content="Como a página da Site Express trata dados: sem formulários, contador de cliques só no seu navegador e Meta Pixel ativado apenas com o seu consentimento.">
   <link rel="canonical" href="https://vinriibeiro.github.io/site-express/privacidade/">
   <meta name="theme-color" content="#070B18">
   <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
   <link rel="preload" href="../assets/fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../assets/css/site.css?v=1">
+  <link rel="stylesheet" href="../assets/css/site.css?v=2">
 </head>
 <body class="interna">
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
@@ -36,9 +36,9 @@
       <h2>Em resumo</h2>
       <ul>
         <li>A página não tem formulários e não pede nome, telefone, e-mail ou qualquer dado pessoal.</li>
-        <li>A página não usa cookies.</li>
-        <li>Fontes e imagens são servidas pelo próprio site, sem chamadas a serviços de terceiros.</li>
-        <li>O Meta Pixel está preparado, mas <strong>desativado</strong>: nenhum script da Meta é carregado e nenhum evento é enviado.</li>
+        <li>A página só grava cookies se você aceitar o Meta Pixel. Sem o seu aceite, nenhum cookie é gravado.</li>
+        <li>Fontes e imagens são servidas pelo próprio site. O único serviço de terceiros é o Meta Pixel, e só se você aceitar.</li>
+        <li>O Meta Pixel só é carregado <strong>depois que você aceita</strong> no aviso de privacidade. Se você recusar ou não responder, nenhum script da Meta é carregado e nada é enviado.</li>
         <li>Existe um contador de cliques nos botões de WhatsApp que fica só no seu navegador.</li>
       </ul>
 
@@ -46,8 +46,16 @@
       <p>Quando você toca em um botão de WhatsApp, a página guarda no armazenamento local do seu navegador (<code>localStorage</code>) quantas vezes cada botão foi tocado e a data do último toque. Exemplo: “botão do topo: 1; data: 2026-10-27”.</p>
       <p>Esse contador não contém dados pessoais, não sai do seu aparelho e não é enviado a nenhum servidor. Se o seu navegador bloquear o armazenamento, nada é gravado e o botão funciona normalmente. Para apagar, limpe os dados deste site nas configurações do navegador.</p>
 
-      <h2>Meta Pixel</h2>
-      <p>O código da página está pronto para usar o Meta Pixel no futuro, mas ele está desligado: não há ID configurado, então nenhum script da Meta é carregado e nada é enviado. Se ele for ativado, esta página será atualizada antes, explicando quais eventos passam a ser enviados.</p>
+      <h2 id="meta-pixel">Meta Pixel</h2>
+      <p>A página usa o Meta Pixel, ferramenta da Meta Platforms (dona do Facebook, do Instagram e do WhatsApp), para medir quantas pessoas visitam a página e tocam nos botões de WhatsApp e para melhorar os anúncios da Site Express nessas redes.</p>
+      <p><strong>Ele só funciona com o seu consentimento.</strong> Na primeira visita aparece um aviso com as opções “Aceitar” e “Recusar”. Enquanto você não aceita, o script da Meta não é carregado, nenhum cookie é gravado e nada é enviado. A base legal é o consentimento (art. 7º, I, da LGPD).</p>
+      <p>Se você aceitar, a página passa a enviar à Meta dois eventos:</p>
+      <ul>
+        <li><strong>PageView</strong>: quando a página é carregada.</li>
+        <li><strong>Contact</strong>: quando você toca em um botão de WhatsApp, no máximo uma vez por visita à página. Ele registra só a intenção de contato, não significa que uma conversa foi iniciada nem que houve contratação.</li>
+      </ul>
+      <p>Junto com esses eventos, a Meta recebe dados técnicos do navegador, como endereço IP, tipo de navegador e aparelho, endereço da página e um identificador gravado no cookie <code>_fbp</code> (validade de até 90 dias). Se você estiver conectado ao Facebook ou ao Instagram, a Meta pode associar esses dados à sua conta. A página não envia nome, telefone, e-mail nem o conteúdo de mensagens. Os dados podem ser tratados fora do Brasil, conforme a <a href="https://www.facebook.com/privacy/policy/" target="_blank" rel="noopener">Política de Privacidade da Meta</a>, que define como ela os usa.</p>
+      <p>Sua escolha fica guardada no armazenamento local do seu navegador (<code>localStorage</code>) para o aviso não aparecer a cada visita. Você pode mudar de ideia a qualquer momento em <a href="../#preferencias">Preferências de privacidade</a>, também no rodapé da página inicial. Se você recusar depois de ter aceitado, o Pixel deixa de enviar eventos e os cookies da Meta neste site são apagados. Você também pode ajustar anúncios nas <a href="https://accountscenter.facebook.com/ad_preferences" target="_blank" rel="noopener">preferências de anúncios da Meta</a>.</p>
 
       <h2>Hospedagem</h2>
       <p>A página é hospedada no GitHub Pages, serviço do GitHub. Como qualquer servidor, o GitHub pode registrar dados técnicos de acesso, como endereço IP, para segurança e funcionamento do serviço. Esse tratamento segue a <a href="https://docs.github.com/pt/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">declaração de privacidade do GitHub</a>. A Site Express não tem acesso a esses registros.</p>
@@ -56,10 +64,10 @@
       <p>Os botões abrem o WhatsApp com uma mensagem pronta. Nada é enviado até você tocar em enviar no próprio WhatsApp. A partir daí, a conversa segue as regras do WhatsApp, e as informações que você compartilhar são usadas para responder ao seu contato e, se você contratar, para produzir o seu site.</p>
 
       <h2>Links para outros sites</h2>
-      <p>O catálogo de modelos e o Instagram são outros endereços, com regras próprias de privacidade.</p>
+      <p>O catálogo de modelos, o Instagram e o WhatsApp são outros endereços, com regras próprias de privacidade.</p>
 
       <h2>Seus direitos</h2>
-      <p>Pela Lei Geral de Proteção de Dados (LGPD), você pode pedir informações, correção ou exclusão de dados pessoais que tenha compartilhado com a Site Express. Fale pelo WhatsApp <a href="https://wa.me/556196113299" rel="noopener">(61) 9611-3299</a>.</p>
+      <p>Pela Lei Geral de Proteção de Dados (LGPD), você pode pedir informações, correção ou exclusão de dados pessoais que tenha compartilhado com a Site Express. Fale pelo WhatsApp <a href="https://wa.me/556196113299" rel="noopener">(61) 9611-3299</a>. Sobre os dados que a Meta recebe pelo Pixel, você também pode exercer seus direitos diretamente com a Meta, pelos canais indicados na política de privacidade dela.</p>
 
       <h2 id="creditos">Créditos das imagens</h2>
       <ul>

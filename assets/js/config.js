@@ -1,9 +1,8 @@
 // Configuração da página.
-// metaPixelId: deixe vazio enquanto não houver um ID real do Meta Pixel.
-// Com o campo vazio, nenhum script da Meta é carregado e nenhum evento é enviado.
-// Para ativar: preencha o ID (só números), libere connect.facebook.net e
-// www.facebook.com na Content-Security-Policy do index.html e atualize a página
-// de privacidade antes de publicar.
+// metaPixelId: ID do Meta Pixel (só números). Vazio = nenhum script da Meta é carregado.
+// Mesmo com ID, o Pixel só carrega depois que o visitante aceita no aviso de privacidade.
+// Ao trocar o ID, mantenha connect.facebook.net e www.facebook.com na
+// Content-Security-Policy do index.html e a página de privacidade atualizada.
 window.SITE_EXPRESS_CONFIG = {
-  metaPixelId: ''
+  metaPixelId: '3383205965216129'
 };

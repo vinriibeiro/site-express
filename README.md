@@ -19,15 +19,15 @@ Todos os botões são links comuns para `https://wa.me/556196113299` com a mensa
 
 Cada clique soma um contador **só no navegador do visitante** (`localStorage`, chave `siteExpress.cliquesWhatsApp`): total, contagem por botão e data do último clique. Nenhum dado pessoal, nada é enviado. Para conferir no seu navegador, rode `siteExpressCliques()` no console.
 
-## Meta Pixel (desativado)
+## Meta Pixel
 
-O código está pronto, mas só carrega com um ID real em `assets/js/config.js` (`metaPixelId`). Com o campo vazio, nenhum script da Meta é carregado. Para ativar:
+ID `3383205965216129`, configurado em `assets/js/config.js` (`metaPixelId`). Código-base oficial carregado por `assets/js/site.js`.
 
-1. Preencha `metaPixelId` com o ID real (só números).
-2. Na Content-Security-Policy do `index.html`, acrescente `https://connect.facebook.net` em `script-src` e `https://www.facebook.com` em `img-src` e `connect-src`.
-3. Atualize a seção "Meta Pixel" da página de privacidade **antes** de publicar.
-
-Eventos enviados quando ativo: `PageView` e `Contact` no clique do WhatsApp.
+- **Consentimento (LGPD):** nada da Meta é carregado antes de o visitante tocar em "Aceitar" no aviso de privacidade. A escolha fica no `localStorage` (`siteExpress.consentimentoPixel`). O link "Preferências de privacidade" no rodapé (ou `#preferencias` na URL) reabre o aviso; recusar depois de aceitar faz `fbq('consent','revoke')` e apaga `_fbp`/`_fbc`.
+- **Eventos:** `PageView` ao carregar (com consentimento) e `Contact` no clique de qualquer `a[data-wa]`, no máximo **um por carregamento de página**, com `content_name: whatsapp_<botão>`. `Contact` = intenção de contato, não conversa nem venda.
+- Sem a tag `<noscript>` do Pixel, porque ela dispararia sem consentimento.
+- A Content-Security-Policy do `index.html` libera `connect.facebook.net` e `www.facebook.com`.
+- Ao mudar o que é enviado, atualize a seção "Meta Pixel" de `privacidade/`.
 
 ## Rodar localmente
 
