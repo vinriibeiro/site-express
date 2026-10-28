@@ -1,5 +1,6 @@
 // Gera as imagens otimizadas (AVIF + WebP) em assets/img a partir de tools/src.
-// Uso: node tools/imagens.js <caminho do sharp>
+// Uso: node tools/imagens.js <caminho do sharp>          (tudo)
+//      node tools/imagens.js <caminho do sharp> demos    (só os modelos de outros segmentos)
 const sharp = require(process.argv[2]);
 const path = require('path');
 const src = (f) => path.join(__dirname, 'src', f);
@@ -13,7 +14,18 @@ async function variants(pipeline, name, widths, q = { avif: 50, webp: 74 }) {
   }
 }
 
+const DEMOS = ['navalha-co-barbearia', 'patas-felizes-banho-tosa', 'doce-atelie-confeitaria'];
+
+async function demos() {
+  // Capturas dos modelos de outros segmentos (tools/capturar-demos.js), salvas como demo-<modelo>-*.
+  for (const m of DEMOS) {
+    await variants(() => sharp(src(`demo-${m}-mobile.png`)).extract({ left: 0, top: 0, width: 780, height: 1600 }), `demo-${m}-mobile`, [300, 600]);
+    await variants(() => sharp(src(`demo-${m}-desktop.png`)), `demo-${m}-desktop`, [720, 1200]);
+  }
+}
+
 (async () => {
+  if (process.argv[3] === 'demos') return demos();
   // Foto do hero: Harrycapta, CC BY-SA 4.0 — recorte vertical centrado na politriz.
   await variants(() => sharp(src('polimento.jpg')).rotate().extract({ left: 0, top: 900, width: 3376, height: 4220 }),
     'polimento', [560, 840, 1200]);
@@ -27,4 +39,5 @@ async function variants(pipeline, name, widths, q = { avif: 50, webp: 74 }) {
       `${m}-mobile`, [300, 600]);
     await variants(() => sharp(src(`${m}-desktop.png`)), `${m}-desktop`, [720, 1200]);
   }
+  await demos();
 })();

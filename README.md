@@ -1,6 +1,6 @@
 # Site Express — landing page
 
-Página de vendas da Site Express para donos de estética automotiva.
+Página de vendas da Site Express para pequenos negócios e profissionais de serviços (estética automotiva é um dos segmentos). Identidade: roxo `#7C3AED`, preto `#0B0A10`, lilás `#C4B5FD` e branco; símbolo de barras inclinadas.
 Publicada em https://vinriibeiro.github.io/site-express/ (GitHub Pages, branch `main`, raiz).
 
 Site estático: HTML, CSS e JS sem dependências, fontes e imagens servidas localmente.
@@ -18,6 +18,10 @@ Site estático: HTML, CSS e JS sem dependências, fontes e imagens servidas loca
 Todos os botões são links comuns para `https://wa.me/5561996113299` com a mensagem pronta codificada. Funcionam sem JavaScript.
 
 Cada clique soma um contador **só no navegador do visitante** (`localStorage`, chave `siteExpress.cliquesWhatsApp`): total, contagem por botão e data do último clique. Nenhum dado pessoal, nada é enviado. Para conferir no seu navegador, rode `siteExpressCliques()` no console.
+
+## Origem das conversas (código `ref`)
+
+Links com `?ref=<código>` (ou `utm_source` + `utm_content`) fazem a mensagem pronta do WhatsApp terminar com `(ref: <código>)`. Exemplos: `?ref=ig-bio`, `?ref=ads-a`, `?ref=ads-b`. O código é limpo (letras, números e hífen, até 24 caracteres), fica só na aba (`sessionStorage`) e aparece no texto antes de o visitante enviar. Assim a conversa que chega no WhatsApp diz de onde veio, sem cookie. Registre a origem no lead do Site Express OS.
 
 ## Meta Pixel
 
@@ -38,5 +42,6 @@ node tools/servidor.js        # http://localhost:8787/site-express/
 ## Imagens
 
 - Fotos de terceiros: Harrycapta e Kotivalo (Wikimedia Commons, CC BY-SA 4.0). As versões modificadas seguem a mesma licença. Créditos em `privacidade/#creditos`.
-- Telas dos modelos: capturas do catálogo https://vinriibeiro.github.io/modelos/ (empresas fictícias).
+- Telas dos modelos: capturas do catálogo https://vinriibeiro.github.io/modelos/ (empresas fictícias). Modelos de outros segmentos: `node tools/capturar-demos.js <playwright> [base]` e `node tools/imagens.js <sharp> demos`.
+- As fotos de polimento e gotas não aparecem mais na página desde o reposicionamento (arquivos mantidos).
 - Fontes Sora e Inter: SIL Open Font License 1.1.

@@ -34,6 +34,30 @@
   // Para consultar no console do navegador: siteExpressCliques()
   window.siteExpressCliques = lerCliques;
 
+  // ---- Origem da visita na mensagem do WhatsApp ----
+  // Links de anúncio/bio levam ?ref=codigo (ou utm_source + utm_content). O código vai
+  // visível no fim da mensagem pronta, para saber de onde veio a conversa.
+  // Sem cookie: fica só nesta aba (sessionStorage) e só com letras, números e hífen.
+  var CHAVE_ORIGEM = 'siteExpress.origem';
+  function limparCodigo(v) { return String(v || '').toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 24); }
+  var origem = '';
+  try {
+    var q = new URLSearchParams(location.search);
+    origem = limparCodigo(q.get('ref') || [q.get('utm_source'), q.get('utm_content')].filter(Boolean).join('-'));
+    if (origem) window.sessionStorage.setItem(CHAVE_ORIGEM, origem);
+    else origem = limparCodigo(window.sessionStorage.getItem(CHAVE_ORIGEM));
+  } catch (e) { /* sem URLSearchParams ou armazenamento: segue sem código */ }
+
+  function marcarOrigem(link) {
+    if (!origem || link.getAttribute('data-ref-ok')) return;
+    try {
+      var url = new URL(link.href);
+      url.searchParams.set('text', (url.searchParams.get('text') || '') + '\n\n(ref: ' + origem + ')');
+      link.href = url.toString();
+      link.setAttribute('data-ref-ok', '1');
+    } catch (e) { /* mantém o link original */ }
+  }
+
   // ---- Meta Pixel (só com ID configurado e depois do consentimento) ----
   var pixelId = String(config.metaPixelId || '').trim();
   var pixelConfigurado = /^\d{10,20}$/.test(pixelId);
@@ -93,6 +117,7 @@
     var alvo = ev.target.closest ? ev.target.closest('a[data-wa]') : null;
     if (!alvo) return;
     var botao = alvo.getAttribute('data-wa') || 'desconhecido';
+    marcarOrigem(alvo);
     registrarClique(botao);
     eventoPixel(botao);
   });

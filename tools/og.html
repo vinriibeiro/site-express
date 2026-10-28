@@ -7,25 +7,26 @@
 <style>
   body { margin: 0; padding: 0; width: 1200px; height: 630px; overflow: hidden; }
   .og { position: relative; width: 1200px; height: 630px; display: grid; grid-template-columns: 1fr 420px;
-    background: radial-gradient(60% 80% at 80% 20%, rgba(124,58,237,.35), transparent 70%), #070b18; }
+    background: radial-gradient(60% 80% at 80% 20%, rgba(124,58,237,.35), transparent 70%), #0b0a10; }
   .og__txt { padding: 64px 0 64px 72px; display: flex; flex-direction: column; }
-  .og h1 { font: 700 64px/1.04 var(--display); letter-spacing: -0.04em; margin-top: 28px; }
+  .og h1 { font: 700 54px/1.06 var(--display); letter-spacing: -0.04em; margin-top: 28px; }
   .og .preco { margin-top: auto; border: 0; padding: 0; }
-  .og__foto { margin: 40px 40px 40px 0; border-radius: 24px; overflow: hidden; border: 1px solid var(--line); }
-  .og__foto img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+  .og__trio { margin: 48px 48px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; align-items: start; }
+  .og__trio img { width: 100%; border-radius: 18px; border: 4px solid #120f1a; box-shadow: 0 0 0 1px var(--line-strong); }
+  .og__trio img:nth-child(2) { margin-top: -20px; }
 </style>
 </head>
 <body>
   <div class="og">
     <div class="og__txt">
       <span class="marca"><svg class="marca__simbolo" viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="#7C3AED"/><path d="M9 21.5 15.5 10h4.2l-6.5 11.5zM15.6 21.5 22.1 10h1.9l-6.5 11.5z" fill="#fff"/></svg><span class="marca__nome">Site Express</span></span>
-      <h1>Sites para estética automotiva</h1>
+      <h1>Seu negócio bem apresentado. Seu contato fácil de encontrar.</h1>
       <div class="preco">
         <p class="preco__valor"><span class="preco__moeda">R$</span>497</p>
         <div class="preco__detalhe"><p class="preco__unico">Pagamento único</p><p>Sem mensalidade obrigatória</p></div>
       </div>
     </div>
-    <div class="og__foto"><img src="../assets/img/polimento-840.webp" alt=""></div>
+    <div class="og__trio"><img src="../assets/img/demo-patas-felizes-banho-tosa-mobile-600.webp" alt=""><img src="../assets/img/demo-navalha-co-barbearia-mobile-600.webp" alt=""><img src="../assets/img/colecao-black-diamond-detail-mobile-600.webp" alt=""></div>
   </div>
 </body>
 </html>
