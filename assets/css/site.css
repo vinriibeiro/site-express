@@ -527,7 +527,7 @@ body.com-aviso .flutuante { visibility: hidden; }
 .hero__nota { margin-top: 18px; text-align: center; font-size: 0.8125rem; color: var(--faint); }
 
 .segmentos-secao { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.segmentos { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: clamp(32px, 4vw, 48px); }
+.segmentos { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); margin-top: clamp(32px, 4vw, 48px); }
 .segmento {
   padding: 22px; border-radius: var(--radius);
   background: var(--surface); border: 1px solid var(--line);
