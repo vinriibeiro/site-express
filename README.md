@@ -15,7 +15,7 @@ Site estático: HTML, CSS e JS sem dependências, fontes e imagens servidas loca
 
 ## WhatsApp
 
-Todos os botões são links comuns para `https://wa.me/556196113299` com a mensagem pronta codificada. Funcionam sem JavaScript.
+Todos os botões são links comuns para `https://wa.me/5561996113299` com a mensagem pronta codificada. Funcionam sem JavaScript.
 
 Cada clique soma um contador **só no navegador do visitante** (`localStorage`, chave `siteExpress.cliquesWhatsApp`): total, contagem por botão e data do último clique. Nenhum dado pessoal, nada é enviado. Para conferir no seu navegador, rode `siteExpressCliques()` no console.
 
