@@ -9,6 +9,8 @@ Site estático: HTML, CSS e JS sem dependências, fontes e imagens servidas loca
 
 - `index.html` — página principal
 - `privacidade/` — privacidade e créditos das imagens
+- `gestao-provedores/` — página de vendas do sistema de gestão para provedores de internet (produto 2), com capturas e links para a demonstração Jandaia OS
+- `provedores/` — demonstração Jandaia OS: apresentação, protótipo navegável e landing (empresa fictícia)
 - `assets/css/site.css`, `assets/js/site.js` — estilos e comportamento
 - `assets/js/config.js` — configuração (Meta Pixel)
 - `tools/` — scripts para regenerar imagens, capturas dos modelos e a imagem de compartilhamento
@@ -21,7 +23,7 @@ Cada clique soma um contador **só no navegador do visitante** (`localStorage`, 
 
 ## Origem das conversas (código `ref`)
 
-Links com `?ref=<código>` (ou `utm_source` + `utm_content`) fazem a mensagem pronta do WhatsApp terminar com `(ref: <código>)`. Exemplos: `?ref=ig-bio`, `?ref=ads-a`, `?ref=ads-b`. O código é limpo (letras, números e hífen, até 24 caracteres), fica só na aba (`sessionStorage`) e aparece no texto antes de o visitante enviar. Assim a conversa que chega no WhatsApp diz de onde veio, sem cookie. Registre a origem no lead do Site Express OS.
+Links com `?ref=<código>` (ou `utm_source` + `utm_content`) fazem a mensagem pronta do WhatsApp terminar com `(ref: <código>)`. Exemplos: `?ref=ig-bio`, `?ref=ads-a`, `?ref=ads-b`, `gestao-provedores/?ref=prov-wa`. O código é limpo (letras, números e hífen, até 24 caracteres), fica só na aba (`sessionStorage`) e aparece no texto antes de o visitante enviar. Assim a conversa que chega no WhatsApp diz de onde veio, sem cookie. Registre a origem no lead do Site Express OS.
 
 ## Meta Pixel
 
@@ -45,3 +47,7 @@ node tools/servidor.js        # http://localhost:8787/site-express/
 - Telas dos modelos: capturas do catálogo https://vinriibeiro.github.io/modelos/ (empresas fictícias). Modelos de outros segmentos: `node tools/capturar-demos.js <playwright> [base]` e `node tools/imagens.js <sharp> demos`.
 - As fotos de polimento e gotas não aparecem mais na página desde o reposicionamento (arquivos mantidos).
 - Fontes Sora e Inter: SIL Open Font License 1.1.
+
+## Gestão para provedores
+
+Página `gestao-provedores/` usa o mesmo CSS/JS da landing (WhatsApp, `ref`, Pixel com consentimento). Os botões têm `data-wa` com prefixo `prov-`, então no contador local e no evento `Contact` dá para separar provedores de sites. Capturas `assets/img/gestao-*.webp` foram tiradas do protótipo em `provedores/` (refazer se o protótipo mudar). Preço ainda não definido: a página fala em proposta após diagnóstico.
