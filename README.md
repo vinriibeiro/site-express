@@ -1,6 +1,6 @@
 # Site Express — landing page
 
-Página de vendas da Site Express para pequenos negócios e profissionais de serviços (estética automotiva é um dos segmentos). Identidade: roxo `#7C3AED`, preto `#0B0A10`, lilás `#C4B5FD` e branco; símbolo de barras inclinadas.
+Página de vendas da Site Express para pequenos negócios e profissionais de serviços (estética automotiva é um dos segmentos). Identidade (nov/2026): verde-petróleo `#006B5E`, coral `#FF8A4C` (chamadas, com texto carvão), carvão `#202A28`, cinza `#52605B`, marfim `#FAF7F0`, névoa `#E7EFEB`, sucesso `#217A47`. Títulos em Manrope, textos em DM Sans. Cores centralizadas em variáveis no topo de `assets/css/site.css`; logos em `assets/img/marca/` (SVG vetorizado + PNG).
 Publicada em https://vinriibeiro.github.io/site-express/ (GitHub Pages, branch `main`, raiz).
 
 Site estático: HTML, CSS e JS sem dependências, fontes e imagens servidas localmente.
@@ -46,7 +46,7 @@ node tools/servidor.js        # http://localhost:8787/site-express/
 - Fotos de terceiros: Harrycapta e Kotivalo (Wikimedia Commons, CC BY-SA 4.0). As versões modificadas seguem a mesma licença. Créditos em `privacidade/#creditos`.
 - Telas dos modelos: capturas do catálogo https://vinriibeiro.github.io/modelos/ (empresas fictícias). Modelos de outros segmentos: `node tools/capturar-demos.js <playwright> [base]` e `node tools/imagens.js <sharp> demos`.
 - As fotos de polimento e gotas não aparecem mais na página desde o reposicionamento (arquivos mantidos).
-- Fontes Sora e Inter: SIL Open Font License 1.1.
+- Fontes Manrope e DM Sans (Fontsource, subconjunto latino): SIL Open Font License 1.1.
 
 ## Gestão para provedores
 
