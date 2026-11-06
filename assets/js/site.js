@@ -174,7 +174,7 @@
 
   // ---- Botão flutuante: some enquanto outro botão de WhatsApp está à vista ----
   var flutuante = document.querySelector('.flutuante');
-  var ctas = document.querySelectorAll('.hero .acoes, .oferta .btn--primario, .final .btn--primario');
+  var ctas = document.querySelectorAll('.hero .acoes, .quero .btn, .oferta .btn--primario, .final .btn');
   if (flutuante && ctas.length && 'IntersectionObserver' in window) {
     var visiveis = new Set();
     var obsCta = new IntersectionObserver(function (entradas) {

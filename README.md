@@ -1,6 +1,6 @@
 # Site Express — landing page
 
-Página de vendas da Site Express para pequenos negócios e profissionais de serviços (estética automotiva é um dos segmentos). Identidade: roxo `#7C3AED`, preto `#0B0A10`, lilás `#C4B5FD` e branco; símbolo de barras inclinadas.
+Página de vendas da **Site Express Soluções Digitais**. Primeira dobra: demonstração funcional da **Agenda Express para barbearias** (pedido de horário que chega pronto no WhatsApp; a barbearia confirma). Identidade Horizonte: floresta `#103B30`, lima `#D9F86F` e papel `#F3F3ED`; símbolo de barras inclinadas. A demo fica em `assets/js/agenda-demo.js` (Navalha & Co., fictícia; nada é enviado).
 Publicada em https://vinriibeiro.github.io/site-express/ (GitHub Pages, branch `main`, raiz).
 
 Site estático: HTML, CSS e JS sem dependências, fontes e imagens servidas localmente.
