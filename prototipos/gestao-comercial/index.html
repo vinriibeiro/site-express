@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#08172f">
+<title>Gestão Comercial · protótipo · Soluções Digitais Express</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='13' fill='%231e3a8a'/%3E%3Cpath d='M31 11H22A6.5 6.5 0 0 0 22 24H26A6.5 6.5 0 0 1 26 37H15' stroke='%23fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='35' cy='11' r='3.2' fill='%2393c5fd'/%3E%3Ccircle cx='12' cy='37' r='3.2' fill='%2393c5fd'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../_base/tokens.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<a class="skip" href="#view">Ir para o conteúdo</a>
+<div class="sim-bar" id="simBar"><b>SIMULAÇÃO</b> · Norte Conecta é uma empresa fictícia. Todos os dados são de demonstração. <a href="../../">Voltar ao site</a></div>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Menu principal">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="13" fill="#1e3a8a"/><path d="M31 11H22A6.5 6.5 0 0 0 22 24H26A6.5 6.5 0 0 1 26 37H15" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="35" cy="11" r="3.2" fill="#93c5fd"/><circle cx="12" cy="37" r="3.2" fill="#93c5fd"/></svg>
+      <div><strong>Norte Conecta</strong><span>Gestão Comercial</span></div>
+    </div>
+    <nav id="nav" aria-label="Telas"></nav>
+    <div class="side-foot">
+      <div class="cta">
+        <p>Quer um painel como este para o seu negócio?</p>
+        <a class="cta-btn" href="https://wa.me/5561996113299?text=Ol%C3%A1!%20Vi%20o%20prot%C3%B3tipo%20de%20Gest%C3%A3o%20Comercial%20e%20quero%20conversar." target="_blank" rel="noopener">Conversar</a>
+      </div>
+    </div>
+  </aside>
+  <div class="scrim" id="scrim" hidden></div>
+  <div class="main">
+    <header class="top">
+      <button class="menu-btn" id="menuBtn" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="side"></button>
+      <div class="top-title"><h1 id="pgTitle">Visão geral</h1><span id="pgSub" class="muted"></span></div>
+      <div class="top-right">
+        <span class="periodo" title="Período fictício da demonstração">Nov/2026 · até 18/11</span>
+        <label class="ver-como"><span>Ver como</span>
+          <select id="perfil" aria-label="Ver como (perfil de acesso)">
+            <option value="dir">Diretoria</option>
+            <option value="lider">Líder · Marina Tavares</option>
+            <option value="vend">Vendedor · Davi Prado</option>
+          </select>
+        </label>
+        <span class="avatar" id="avatar" aria-hidden="true">DN</span>
+      </div>
+    </header>
+    <main id="view" class="view" tabindex="-1"></main>
+  </div>
+</div>
+<div class="drawer-wrap" id="drawer" hidden>
+  <div class="drawer-bg" data-close></div>
+  <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitulo"><div id="drawerBody"></div></aside>
+</div>
+<div class="modal" id="modal" hidden>
+  <div class="modal-bg" data-close></div>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitulo"><div id="modalBody"></div></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

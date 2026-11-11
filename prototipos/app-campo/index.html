@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0b1f4d">
+<meta name="description" content="Protótipo navegável do Aplicativo de Campo: visitas, check-in, registro rápido e sincronização offline. Empresa e dados fictícios.">
+<title>Aplicativo de Campo · protótipo</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='13' fill='%231e3a8a'/%3E%3Cpath d='M31 11H22A6.5 6.5 0 0 0 22 24H26A6.5 6.5 0 0 1 26 37H15' stroke='%23fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='35' cy='11' r='3.2' fill='%2393c5fd'/%3E%3Ccircle cx='12' cy='37' r='3.2' fill='%2393c5fd'/%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="../_base/tokens.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="sim-bar"><b>SIMULAÇÃO</b> · Brisa Instalações é uma empresa fictícia. Todos os dados são de demonstração. <a href="../../">Voltar ao site</a></div>
+
+<h1 class="so-leitor">Aplicativo de Campo · protótipo navegável</h1>
+<main class="palco">
+
+  <aside class="painel" aria-label="Sobre este protótipo">
+    <div class="painel-marca">
+      <svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true"><rect width="48" height="48" rx="13" fill="#1e3a8a"/><path d="M31 11H22A6.5 6.5 0 0 0 22 24H26A6.5 6.5 0 0 1 26 37H15" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="35" cy="11" r="3.2" fill="#93c5fd"/><circle cx="12" cy="37" r="3.2" fill="#93c5fd"/></svg>
+      <span>Soluções Digitais Express</span>
+    </div>
+    <h2>O app que a sua equipe de rua leva no bolso</h2>
+    <p class="painel-lead">Visitas, check-in, fotos e vendas registrados no celular. Toque no aparelho ao lado e use como se fosse o aplicativo real.</p>
+    <ul class="destaques">
+      <li><span class="d-ic"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 1l22 22M16.7 11.1A11 11 0 0 1 19 12.6M5 12.6a11 11 0 0 1 5.2-2.4M10.7 5.1A16 16 0 0 1 22.6 9M1.4 9a16 16 0 0 1 4.7-2.9M8.5 16.1a6 6 0 0 1 7 0M12 20h.01"/></svg></span><div><strong>Funciona mesmo sem sinal</strong><span>Na zona rural ou no subsolo, tudo fica guardado e é enviado quando o sinal volta.</span></div></li>
+      <li><span class="d-ic"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h8l-1 8 10-12h-8z"/></svg></span><div><strong>Registro em segundos</strong><span>Check-in, checklist, foto e resultado da visita em poucos toques, sem papel.</span></div></li>
+      <li><span class="d-ic"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20V10M18 20V4M6 20v-4"/></svg></span><div><strong>Gestor vê em tempo real</strong><span>Cada visita e cada venda aparecem no painel da gestão assim que chegam.</span></div></li>
+    </ul>
+    <div class="experimente">
+      <b>Experimente</b>
+      <ol>
+        <li>Toque em <em>Iniciar</em> numa visita da rota.</li>
+        <li>Faça o check-in e finalize a visita.</li>
+        <li>Em <em>Sinal</em>, ligue o modo sem sinal e registre de novo.</li>
+      </ol>
+    </div>
+    <a class="painel-cta" href="https://wa.me/5561996113299?text=Ol%C3%A1!%20Vi%20o%20prot%C3%B3tipo%20do%20Aplicativo%20de%20Campo%20e%20quero%20conversar." target="_blank" rel="noopener">Quer um aplicativo assim para a sua equipe? <u>Conversar</u></a>
+  </aside>
+
+  <div class="aparelho">
+    <div class="moldura">
+      <div class="app" id="app">
+        <div class="statusbar" aria-hidden="true">
+          <span class="sb-hora" id="sbHora">10:42</span>
+          <span class="ilha"></span>
+          <span class="sb-ic" id="sbIc"></span>
+        </div>
+        <header class="topo">
+          <div class="marca-app">
+            <svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true"><rect width="48" height="48" rx="13" fill="#1e3a8a"/><path d="M31 11H22A6.5 6.5 0 0 0 22 24H26A6.5 6.5 0 0 1 26 37H15" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="35" cy="11" r="3.2" fill="#93c5fd"/><circle cx="12" cy="37" r="3.2" fill="#93c5fd"/></svg>
+            <div><strong>Brisa Campo</strong><small>Equipe Norte</small></div>
+          </div>
+          <button class="chip-sync" id="chipSync" type="button" data-acao="aba" data-aba="sync"></button>
+        </header>
+        <div class="telas" id="telas">
+          <section class="tela" id="t-hoje" data-aba="hoje" aria-label="Hoje"></section>
+          <section class="tela" id="t-visita" data-aba="visita" aria-label="Visita"></section>
+          <section class="tela" id="t-registrar" data-aba="registrar" aria-label="Registrar"></section>
+          <section class="tela" id="t-sync" data-aba="sync" aria-label="Sinal e perfil"></section>
+        </div>
+        <nav class="abas" id="abas" aria-label="Navegação do aplicativo"></nav>
+        <div class="folha-fundo" id="folhaFundo" hidden data-acao="fechar-folha"></div>
+        <div class="folha" id="folha" role="dialog" aria-modal="true" aria-labelledby="folhaTit" hidden></div>
+        <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
