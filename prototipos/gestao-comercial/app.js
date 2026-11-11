@@ -35,6 +35,10 @@
     cart: '<path d="M3 4h2l2.2 11h10.6L20 7H6.2"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/>',
     tag: '<path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="8" cy="8" r="1.4"/>', cancel: '<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>',
     lupa: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M8.5 11h5"/>',
+    chat: '<path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v9a1.5 1.5 0 0 1-1.5 1.5H9l-5 4z"/><path d="M8 9h8M8 12h5"/>',
+    sino: '<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 1.5h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+    clip: '<path d="M20 11.5l-8.2 8.2a5 5 0 0 1-7.1-7.1l8.6-8.6a3.4 3.4 0 0 1 4.8 4.8l-8.4 8.4a1.8 1.8 0 0 1-2.6-2.6l7.6-7.6"/>',
+    env: '<path d="M4 12l16-8-5.5 16-3-6.5z"/><path d="M11.5 13.5L20 4"/>',
   };
   const ic = (k, c = '') => `<svg class="ic ${c}" viewBox="0 0 24 24" aria-hidden="true">${P[k]}</svg>`;
   $('#menuBtn').innerHTML = ic('menu');
@@ -49,21 +53,27 @@
   const vend = id => D.vendedores.find(v => v.id === id);
   const equipe = id => D.equipes.find(e => e.id === id);
   const ME = D.vendedores.find(v => v.nome === 'Davi Prado');
-  const TODAS = ['visao', 'funil', 'equipes', 'vendas', 'metas', 'importar'];
+  const TODAS = ['visao', 'funil', 'equipes', 'vendas', 'metas', 'importar', 'chat'];
+  // lado: em que ponta do chat da venda a pessoa escreve (backoffice ou vendedor)
   const PERFIS = {
-    dir: { nome: 'Diretoria', ini: 'DN', rotas: TODAS, aviso: '' },
-    lider: { nome: 'Marina Tavares', ini: 'MT', eq: 'aurora', rotas: ['visao', 'funil', 'equipes', 'vendas', 'metas', 'importar'], aviso: 'Visão do líder: você enxerga apenas a Equipe Aurora.' },
-    vend: { nome: 'Davi Prado', ini: 'DP', rotas: ['visao', 'funil', 'vendas', 'metas'], aviso: 'Visão do vendedor: você enxerga apenas o seu próprio desempenho, sem dados de colegas.' },
+    dir: { nome: 'Diretoria Norte', ini: 'DN', rotas: TODAS, aviso: '', lado: 'bo' },
+    bo: { nome: 'Sofia Lemos', ini: 'SL', rotas: ['visao', 'vendas', 'importar', 'chat'], aviso: '', lado: 'bo' },
+    lider: { nome: 'Marina Tavares', ini: 'MT', eq: 'aurora', rotas: ['visao', 'funil', 'equipes', 'vendas', 'metas', 'importar', 'chat'], aviso: 'Visão do líder: você enxerga apenas a Equipe Aurora.', lado: 'bo' },
+    vend: { nome: 'Davi Prado', ini: 'DP', rotas: ['visao', 'funil', 'vendas', 'metas', 'chat'], aviso: 'Visão do vendedor: você enxerga apenas o seu próprio desempenho, sem dados de colegas.', lado: 'vend' },
   };
   const ROTAS = {
-    visao: { nome: 'Visão geral', ic: 'visao' }, funil: { nome: 'Funil', ic: 'funil' }, equipes: { nome: 'Equipes e vendedores', ic: 'equipes' },
+    visao: { nome: 'Painel', ic: 'visao' }, funil: { nome: 'Funil', ic: 'funil' }, equipes: { nome: 'Equipes e vendedores', ic: 'equipes' },
     vendas: { nome: 'Vendas', ic: 'vendas' }, metas: { nome: 'Metas e comissões', ic: 'metas' }, importar: { nome: 'Importar planilha', ic: 'importar' },
+    chat: { nome: 'Chat Express', ic: 'chat' },
   };
+  // menu agrupado por área de trabalho
+  const GRUPOS = [['Visão geral', ['visao']], ['Comercial', ['vendas', 'funil', 'importar']], ['Atendimento', ['chat']], ['Gestão', ['equipes', 'metas']]];
   let perfil = 'dir', rota = 'visao';
+  const amplo = () => perfil === 'dir' || perfil === 'bo';
   const vsEsc = eq => perfil === 'vend' ? [ME] : perfil === 'lider' ? D.vendedores.filter(v => v.equipe === 'aurora') : (eq ? D.vendedores.filter(v => v.equipe === eq) : D.vendedores);
   const subtitulo = r => {
-    const base = perfil === 'dir' ? 'Toda a operação · Norte Conecta' : perfil === 'lider' ? 'Equipe Aurora · líder Marina Tavares' : 'Seu desempenho · Davi Prado';
-    return ({ visao: base, funil: 'Oportunidades em andamento · ' + (perfil === 'dir' ? 'todas as equipes' : perfil === 'lider' ? 'Equipe Aurora' : 'suas oportunidades'), equipes: 'Quem vende, quanto e em que ritmo', vendas: 'Vendas de novembro (01 a 18/11)', metas: 'Metas do mês e estimativa de comissão', importar: 'Entrada de vendas por planilha (demonstração)' })[r];
+    const base = perfil === 'bo' ? 'Toda a operação · visão do backoffice (Sofia Lemos)' : amplo() ? 'Toda a operação · Norte Conecta' : perfil === 'lider' ? 'Equipe Aurora · líder Marina Tavares' : 'Seu desempenho · Davi Prado';
+    return ({ visao: base, funil: 'Oportunidades em andamento · ' + (amplo() ? 'todas as equipes' : perfil === 'lider' ? 'Equipe Aurora' : 'suas oportunidades'), equipes: 'Quem vende, quanto e em que ritmo', vendas: 'Vendas de novembro (01 a 18/11)', metas: 'Metas do mês e estimativa de comissão', importar: 'Entrada de vendas por planilha (demonstração)', chat: 'Central de atendimento · WhatsApp e chat do site em um só lugar' })[r];
   };
 
   // ---------- cálculos ----------
@@ -152,16 +162,61 @@
   $('#scrim').addEventListener('click', () => menu(false));
   window.addEventListener('resize', () => { setSim(); if (innerWidth >= 1100 && $('#side').classList.contains('open')) menu(false); });
   function setSim() { document.documentElement.style.setProperty('--simh', $('#simBar').offsetHeight + 'px'); }
+  const contador = r => r === 'vendas' ? naoLidas().length : r === 'chat' && window.ChatExpress ? ChatExpress.fila(perfil, PERFIS[perfil].nome) : 0;
   function navegacao() {
-    $('#nav').innerHTML = PERFIS[perfil].rotas.map(r => `<a class="nav-it${r === rota ? ' on' : ''}" href="#/${r}"${r === rota ? ' aria-current="page"' : ''}>${ic(ROTAS[r].ic)}<span>${ROTAS[r].nome}</span></a>`).join('');
+    const rs = PERFIS[perfil].rotas;
+    $('#nav').innerHTML = GRUPOS.map(([g, l]) => {
+      const it = l.filter(r => rs.includes(r)); if (!it.length) return '';
+      return `<div class="nav-g"><span class="nav-gt">${g}</span>${it.map(r => { const q = contador(r), t = r === 'vendas' ? 'mensagens não lidas' : 'conversas na fila'; return `<a class="nav-it${r === rota ? ' on' : ''}" href="#/${r}"${r === rota ? ' aria-current="page"' : ''}>${ic(ROTAS[r].ic)}<span>${ROTAS[r].nome}</span>${q ? `<span class="nav-n" title="${q} ${t}"><span class="sr">, ${q} ${t}</span><span aria-hidden="true">${q}</span></span>` : ''}</a>`; }).join('')}</div>`;
+    }).join('');
   }
   $('#nav').addEventListener('click', () => { if (innerWidth < 1100) menu(false); });
   $('#perfil').addEventListener('change', e => {
-    perfil = e.target.value; resetEstados(); fecha(true);
+    perfil = e.target.value; resetEstados(); fecha(true); avisos(false);
     $('#avatar').textContent = PERFIS[perfil].ini;
     toast('Visão alterada: ' + e.target.selectedOptions[0].textContent);
     if (!PERFIS[perfil].rotas.includes(rota)) location.hash = '#/visao'; else rotear(false);
   });
+
+  // ---------- chat da venda: quem ainda não leu ----------
+  const lado = () => PERFIS[perfil].lado;
+  const autorEu = () => perfil === 'vend' ? ME.nome : perfil === 'bo' ? D.backoffice : PERFIS[perfil].nome + (perfil === 'lider' ? ' (líder)' : '');
+  function naoLidas() {
+    const ids = new Set(vsEsc().map(v => v.id));
+    return D.vendas.filter(x => ids.has(x.vend) && D.vendaChats[x.id] && !D.vendaChats[x.id].lido[lado()]);
+  }
+
+  // ---------- sino de avisos ----------
+  $('#sino').innerHTML = ic('sino') + '<span class="sino-n" id="sinoN" hidden></span>';
+  function listaAvisos() {
+    const l = naoLidas().map(x => { const t = D.vendaChats[x.id], m = t.msgs[t.msgs.length - 1]; return { tipo: 'venda', id: x.id, t: `${m.autor === 'Sistema' ? 'Atualização' : 'Mensagem de ' + prim(m.autor)} na venda ${x.id}`, s: `${x.cliente} · ${m.txt}`, h: `${dd(m.d)} ${m.h}` }; });
+    if (PERFIS[perfil].rotas.includes('chat') && window.ChatExpress) { const q = ChatExpress.fila(perfil, PERFIS[perfil].nome); if (q) l.push({ tipo: 'chat', t: `${q} ${q === 1 ? 'conversa aguarda' : 'conversas aguardam'} na fila do Chat Express`, s: perfil === 'vend' ? 'Fila do Comercial' : 'WhatsApp e chat do site', h: 'agora' }); }
+    if (perfil !== 'vend' && perfil !== 'bo') D.equipes.filter(e => perfil === 'dir' || e.id === 'aurora').forEach(e => { const r = resumo(D.vendedores.filter(v => v.equipe === e.id)); if (r.projPct < 85) l.push({ tipo: 'meta', t: `${e.nome} abaixo do ritmo da meta`, s: `Projeção de ${pc(r.projPct)} no fechamento do mês`, h: 'hoje' }); });
+    return l;
+  }
+  function atualizaSino() {
+    const q = listaAvisos().length, b = $('#sinoN');
+    b.hidden = !q; b.textContent = q > 9 ? '9+' : q;
+    $('#sino').setAttribute('aria-label', q ? `Avisos: ${q} novos` : 'Avisos: nenhum novo');
+    if (!$('#avisosPop').hidden) pintaAvisos();
+  }
+  function pintaAvisos() {
+    const l = listaAvisos(), icA = { venda: 'chat', chat: 'chat', meta: 'alerta' };
+    $('#avisosPop').innerHTML = `<div class="av-h"><b>Avisos</b>${naoLidas().length ? '<button type="button" class="btn ghost sm" id="avTodos">Marcar mensagens como lidas</button>' : ''}</div>${l.length ? `<ul>${l.map((a, i) => `<li><button type="button" data-av="${i}"><span class="av-ic ${a.tipo}">${ic(icA[a.tipo], 'sm')}</span><span class="av-t"><b>${esc(a.t)}</b><small>${esc(a.s)}</small></span><time>${esc(a.h)}</time></button></li>`).join('')}</ul>` : '<p class="av-vazio">Tudo em dia. Nenhum aviso novo.</p>'}`;
+    $$('[data-av]', $('#avisosPop')).forEach(b => b.addEventListener('click', () => {
+      const a = l[b.dataset.av]; avisos(false);
+      if (a.tipo === 'venda') abreVenda(a.id); else if (a.tipo === 'chat') location.hash = '#/chat'; else location.hash = '#/equipes';
+    }));
+    const t = $('#avTodos'); if (t) t.addEventListener('click', () => { naoLidas().forEach(x => D.vendaChats[x.id].lido[lado()] = true); atualizaTudo(); toast('Mensagens marcadas como lidas'); if (rota === 'vendas') pintaVn(); });
+  }
+  function avisos(abrir) {
+    const p = $('#avisosPop'); p.hidden = !abrir; $('#sino').setAttribute('aria-expanded', abrir);
+    if (abrir) { pintaAvisos(); const f = $('button', p); if (f) f.focus({ preventScroll: true }); }
+  }
+  $('#sino').addEventListener('click', e => { e.stopPropagation(); avisos($('#avisosPop').hidden); });
+  document.addEventListener('click', e => { if (!$('#avisosPop').hidden && !e.target.closest('#avisosPop')) avisos(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#avisosPop').hidden) { avisos(false); $('#sino').focus(); } });
+  function atualizaTudo() { navegacao(); atualizaSino(); }
 
   // ---------- roteamento ----------
   let token = 0, ro = null, timers = [];
@@ -170,7 +225,7 @@
     const h = (location.hash.replace(/^#\/?/, '') || 'visao');
     rota = ROTAS[h] ? h : 'visao';
     if (!PERFIS[perfil].rotas.includes(rota)) { rota = 'visao'; if (location.hash !== '#/visao') { history.replaceState(null, '', '#/visao'); } }
-    limpa(); navegacao();
+    limpa(); atualizaTudo(); view.classList.toggle('larga', rota === 'chat');
     $('#pgTitle').textContent = ROTAS[rota].nome; $('#pgSub').textContent = subtitulo(rota);
     document.title = ROTAS[rota].nome + ' · Gestão Comercial · protótipo';
     const t = ++token; view.setAttribute('aria-busy', 'true'); view.innerHTML = skeleton();
@@ -183,19 +238,47 @@
   let FV, CH, FN, EQ, VN, MT, SM, IM, OPPS;
   function resetEstados() {
     FV = { eq: '' }; CH = { modo: 'dia', metrica: 'vendas' }; FN = { v: '' };
-    EQ = { q: '', eq: '', st: '', ord: 'vendas' }; VN = { q: '', eq: '', uf: '', cid: '', st: '', pr: '', k: 'id', dir: -1, pg: 1 };
+    EQ = { q: '', eq: '', st: '', ord: 'vendas' }; VN = { q: '', eq: '', uf: '', cid: '', st: '', pr: '', cv: '', k: 'id', dir: -1, pg: 1 };
     MT = { eq: '' }; SM = null; IM = { fase: 0, arq: '', filtro: 'todas', ign: true, pct: 0, etapa: 0 };
   }
   OPPS = D.oportunidades.map(o => ({ ...o }));
   resetEstados();
 
-  const VIEWS = { visao, funil, equipes, vendas, metas, importar };
+  const VIEWS = { visao, funil, equipes, vendas, metas, importar, chat };
+
+  // =====================================================================
+  // CHAT EXPRESS (módulo em chat-express.js)
+  // =====================================================================
+  function chat() {
+    const rs = PERFIS[perfil].rotas;
+    ChatExpress.montar({
+      view, perfil, eu: { nome: PERFIS[perfil].nome }, ic, esc, av, toast, abre, fecha, modal: $('#modal'),
+      intervalo: (fn, ms) => timers.push(setInterval(fn, ms)), atualiza: atualizaTudo,
+      abreVenda: rs.includes('vendas') ? abreVenda : null, temFunil: rs.includes('funil'),
+      novaOportunidade: rs.includes('funil') ? novaOportunidade : null,
+    });
+  }
+  function novaOportunidade(o) {
+    const v = perfil === 'vend' ? ME : perfil === 'lider' ? vsEsc()[0] : ME, prod = D.produtos.find(p => p.nome === o.produto) || D.produtos[1];
+    const id = 'O-' + (2100 + OPPS.length);
+    OPPS.unshift({ id, cliente: o.cliente, vend: v.id, eq: v.equipe, produto: prod.nome, valor: prod.valor, uf: o.uf || 'DF', cidade: o.cidade || 'Brasília', etapa: 'novo', dias: 0, origem: 'Chat Express', motivo: '' });
+    toast(`Oportunidade ${id} criada no Funil para ${prim(v.nome)}`);
+    return id;
+  }
 
   // =====================================================================
   // 1. VISÃO GERAL
   // =====================================================================
+  // faixa "o que precisa de você agora": mensagens das vendas e fila do Chat Express
+  function faixaAtend() {
+    const nl = naoLidas().length, cx = window.ChatExpress ? ChatExpress.resumo() : null, fila = window.ChatExpress ? ChatExpress.fila(perfil, PERFIS[perfil].nome) : 0;
+    const itens = [`<a class="fx-it" href="#/vendas"><b class="num">${nl}</b><span>${nl === 1 ? 'mensagem não lida' : 'mensagens não lidas'} nas vendas</span></a>`];
+    if (cx) itens.push(`<a class="fx-it" href="#/chat"><b class="num">${fila}</b><span>na fila do Chat Express</span></a>`);
+    if (cx && perfil !== 'vend') itens.push(`<a class="fx-it" href="#/chat"><b class="num">${cx.atend}</b><span>em atendimento agora</span></a>`, `<a class="fx-it" href="#/chat"><b class="num">${cx.bot}</b><span>com o bot</span></a>`);
+    return `<div class="card fx"><span class="fx-ic">${ic('chat')}</span><div class="fx-t"><b>Atendimento agora</b><span>Conversas que podem precisar de você</span></div><div class="fx-l">${itens.join('')}</div><a class="btn sm pri" href="#/chat">Abrir Chat Express</a></div>`;
+  }
   function visao() {
-    const dir = perfil === 'dir', vs = vsEsc(FV.eq), r = resumo(vs);
+    const dir = amplo(), vs = vsEsc(FV.eq), r = resumo(vs);
     const kpi = (k) => `<article class="card kpi"><div class="k-l"><span class="k-ic">${ic(k.ic, 'sm')}</span>${k.l}</div><div class="k-v">${k.v}</div><div class="k-s">${k.s}</div><div class="row">${k.d || ''}</div>${k.sp || ''}</article>`;
     const kpis = [
       { ic: 'cart', l: 'Vendas do mês', v: n(r.vendas), s: `${brl0(r.valor)} em planos mensais`, d: delta(r.vendas, r.prev.vendas) + '<span class="muted" style="font-size:12px">vs. 01 a 18/10</span>', sp: spark(r.dia, '#2563eb') },
@@ -233,7 +316,7 @@
     const mix = D.produtos.map(p => ({ p, q: r.liq.filter(x => x.produto === p.nome).length })).sort((a, b) => b.q - a.q), tot = r.vendas || 1;
     const mixH = `<article class="card"><div class="card-h"><div><h2>Vendas por produto</h2><p>Participação nas vendas válidas do mês</p></div></div><div class="mix">${mix.map(m => `<div class="mix-r"><span>${esc(m.p.nome)}</span><div class="bar"><i style="--w:${m.q / (mix[0].q || 1) * 100}%"></i></div><span class="num">${n(m.q)} <span class="muted" style="font-weight:500">(${pc(m.q / tot * 100)})</span></span></div>`).join('')}</div></article>`;
 
-    view.innerHTML = `${seleciona}<div class="grid g4">${kpis.map(kpi).join('')}</div>
+    view.innerHTML = `${seleciona}${faixaAtend()}<div class="grid g4">${kpis.map(kpi).join('')}</div>
       <div class="grid g-chart"><article class="card"><div class="card-h"><div><h2>Vendas no mês, dia a dia</h2><p id="chSub"></p></div><div style="display:flex;gap:10px;flex-wrap:wrap"><div class="tabs" role="group" aria-label="Tipo de gráfico"><button type="button" data-m="dia" aria-pressed="${CH.modo === 'dia'}">Diário</button><button type="button" data-m="acum" aria-pressed="${CH.modo === 'acum'}">Acumulado</button></div><div class="tabs" role="group" aria-label="Métrica"><button type="button" data-t="vendas" aria-pressed="${CH.metrica === 'vendas'}">Vendas</button><button type="button" data-t="valor" aria-pressed="${CH.metrica === 'valor'}">R$ em planos</button></div></div></div>
       <div class="chart-wrap" style="position:relative"><div class="chart-box" id="chBox" tabindex="0" role="group" aria-label="Gráfico de vendas por dia de novembro. Use as setas esquerda e direita para ler cada dia."></div><div class="tip" id="chTip"></div></div>
       <div class="legend" id="chLeg" style="margin-top:10px"></div></article>${direita}</div>
@@ -330,7 +413,7 @@
   }
   function funil() {
     const vs = vsEsc();
-    view.innerHTML = `${perfil === 'dir' ? '' : avisoPerfil()}<div class="card toolbar">${perfil === 'vend' ? '' : `<div class="field"><label for="fnV">Vendedor</label><select id="fnV"><option value="">Todos${perfil === 'lider' ? ' da equipe' : ''}</option>${vs.map(v => `<option value="${v.id}"${FN.v === v.id ? ' selected' : ''}>${esc(v.nome)}</option>`).join('')}</select></div>`}<div id="fnTot" class="funil-top" style="flex:1;min-width:240px"></div><p class="muted" style="margin:0;font-size:12.5px;max-width:300px">Arraste os cartões entre as etapas ou use as setas. Movimentos são uma demonstração e não alteram os números das outras telas.</p></div><div class="board" id="board" role="list" aria-label="Quadro de oportunidades por etapa"></div>`;
+    view.innerHTML = `${amplo() ? '' : avisoPerfil()}<div class="card toolbar">${perfil === 'vend' ? '' : `<div class="field"><label for="fnV">Vendedor</label><select id="fnV"><option value="">Todos${perfil === 'lider' ? ' da equipe' : ''}</option>${vs.map(v => `<option value="${v.id}"${FN.v === v.id ? ' selected' : ''}>${esc(v.nome)}</option>`).join('')}</select></div>`}<div id="fnTot" class="funil-top" style="flex:1;min-width:240px"></div><p class="muted" style="margin:0;font-size:12.5px;max-width:300px">Arraste os cartões entre as etapas ou use as setas. Movimentos são uma demonstração e não alteram os números das outras telas.</p></div><div class="board" id="board" role="list" aria-label="Quadro de oportunidades por etapa"></div>`;
     const sel = $('#fnV'); if (sel) sel.addEventListener('change', () => { FN.v = sel.value; pinta(); });
     pinta();
   }
@@ -376,7 +459,7 @@
   // 3. EQUIPES E VENDEDORES
   // =====================================================================
   function equipes() {
-    const dir = perfil === 'dir', eqs = dir ? D.equipes : [equipe('aurora')];
+    const dir = amplo(), eqs = dir ? D.equipes : [equipe('aurora')];
     const cards = eqs.map(e => { const r = resumo(D.vendedores.filter(v => v.equipe === e.id)), s = situacao(r); return `<${dir ? 'button type="button" data-eq="' + e.id + '"' : 'div'} class="card kpi" style="text-align:left;font:inherit;cursor:${dir ? 'pointer' : 'default'};min-height:0" ${dir ? `aria-pressed="${EQ.eq === e.id}" aria-label="Filtrar pela ${esc(e.nome)}"` : ''}><div class="k-l">${av(e.lider, 28)}<span>${esc(e.nome)}<br><span class="muted" style="font-weight:500;font-size:12px">Líder ${esc(e.lider)}</span></span></div><div class="k-v">${n(r.vendas)} <small>de ${n(r.meta)}</small></div>${bar(r.ating, '', RITMO)}<div class="row"><span class="pill ${s[0]}">${s[1]}</span><span class="muted" style="font-size:12px">${e.vendedores.length} vendedores · proj. ${pc(r.projPct)}</span></div></${dir ? 'button' : 'div'}>`; }).join('');
     view.innerHTML = `${dir ? '' : avisoPerfil()}<div class="grid ${dir ? 'g4' : 'g3'}">${cards}</div>
     <div class="card flat"><div class="toolbar"><div class="field busca"><label for="eqQ">Buscar vendedor</label><div class="wrap">${ic('busca', 'sm')}<input type="search" id="eqQ" placeholder="Nome ou login" autocomplete="off"></div></div>${dir ? `<div class="field"><label for="eqE">Equipe</label><select id="eqE"><option value="">Todas</option>${D.equipes.map(e => `<option value="${e.id}">${esc(e.nome)}</option>`).join('')}</select></div>` : ''}<div class="field"><label for="eqS">Status</label><select id="eqS"><option value="">Todos</option><option>Ativo</option><option>Em treinamento</option><option>Em férias</option></select></div><div class="field"><label for="eqO">Ordenar por</label><select id="eqO"><option value="vendas">Mais vendas</option><option value="ating">Maior atingimento</option><option value="ticket">Maior ticket</option><option value="nome">Nome (A-Z)</option></select></div></div><div id="eqTab"></div></div>`;
@@ -390,7 +473,7 @@
     let l = vsEsc().filter(v => (!EQ.eq || v.equipe === EQ.eq) && (!EQ.st || v.status === EQ.st) && (!EQ.q || norm(v.nome + ' ' + v.login).includes(norm(EQ.q))));
     const f = { vendas: v => -sv(v.id).vendas, ating: v => -sv(v.id).ating, ticket: v => -sv(v.id).ticket, nome: v => v.nome };
     l = l.sort((a, b) => { const x = f[EQ.ord](a), y = f[EQ.ord](b); return typeof x === 'string' ? x.localeCompare(y, 'pt-BR') : x - y; });
-    const dir = perfil === 'dir', el = $('#eqTab');
+    const dir = amplo(), el = $('#eqTab');
     if (!l.length) { el.innerHTML = vazio('Nenhum vendedor encontrado', 'Ajuste a busca ou os filtros para ver a equipe.', '<button class="btn" type="button" id="eqLimpa">Limpar filtros</button>'); $('#eqLimpa').addEventListener('click', () => { EQ.q = EQ.st = EQ.eq = ''; equipes(); }); return; }
     el.innerHTML = `<div class="tbl-wrap"><table class="tbl cards nw"><thead><tr><th>Vendedor</th>${dir ? '<th>Equipe</th>' : ''}<th>Status</th><th class="r">Vendas</th><th>Meta</th><th class="r hm">Ticket médio</th><th class="r">Projeção</th></tr></thead><tbody>${l.map(v => { const r = sv(v.id), s = situacao(r); return `<tr class="cl" tabindex="0" data-v="${v.id}" aria-label="${esc(v.nome)}. Abrir detalhe"><td class="t0"><div class="pessoa">${av(v.nome)}<span>${esc(v.nome)}<small>${esc(v.login)}</small></span></div></td>${dir ? `<td data-l="Equipe">${esc(equipe(v.equipe).nome)}</td>` : ''}<td data-l="Status"><span class="pill ${v.status === 'Ativo' ? 'ok' : 'at'}">${esc(v.status)}</span></td><td class="r num" data-l="Vendas"><b>${n(r.vendas)}</b></td><td data-l="Meta"><div class="mini"><span class="num">${pc(r.ating)} de ${n(v.meta)}</span>${bar(r.ating, '', RITMO)}</div></td><td class="r num hm" data-l="Ticket médio">${brl(r.ticket)}</td><td class="r" data-l="Projeção"><span class="pill ${s[0]}">${pc(r.projPct)}</span></td></tr>`; }).join('')}</tbody></table></div><div class="tbl-foot"><span>${l.length} ${l.length === 1 ? 'vendedor' : 'vendedores'}</span><span class="muted">Clique em uma linha para abrir o detalhe.</span></div>`;
     $$('tr.cl', el).forEach(tr => { const g = () => abreVendedor(tr.dataset.v); tr.addEventListener('click', g); tr.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); g(); } }); });
@@ -403,28 +486,30 @@
   function vendasEsc() { const ids = new Set(vsEsc().map(v => v.id)); return D.vendas.filter(x => ids.has(x.vend)); }
   function filtradas() {
     const q = norm(VN.q);
-    const l = vendasEsc().filter(x => (!VN.eq || x.eq === VN.eq) && (!VN.uf || x.uf === VN.uf) && (!VN.cid || x.cidade === VN.cid) && (!VN.st || x.status === VN.st) && (!VN.pr || x.produto === VN.pr) && (!q || norm(x.cliente + ' ' + x.id + ' ' + vend(x.vend).nome).includes(q)));
+    const l = vendasEsc().filter(x => (!VN.eq || x.eq === VN.eq) && (!VN.uf || x.uf === VN.uf) && (!VN.cid || x.cidade === VN.cid) && (!VN.st || x.status === VN.st) && (!VN.pr || x.produto === VN.pr) && (!VN.cv || (VN.cv === 'nl' ? D.vendaChats[x.id] && !D.vendaChats[x.id].lido[lado()] : !!D.vendaChats[x.id])) && (!q || norm(x.cliente + ' ' + x.id + ' ' + vend(x.vend).nome).includes(q)));
     const kf = { id: x => x.d * 10000 + x.h * 100 + x.m, valor: x => x.valor, cliente: x => x.cliente, cidade: x => x.cidade, produto: x => x.produto, status: x => x.status, vendedor: x => vend(x.vend).nome };
     const f = kf[VN.k]; return l.sort((a, b) => { const p = f(a), q2 = f(b); const c = typeof p === 'string' ? p.localeCompare(q2, 'pt-BR') : p - q2; return (c || a.id.localeCompare(b.id)) * VN.dir; });
   }
   function vendas() {
-    const dir = perfil === 'dir', base = vendasEsc();
+    const dir = amplo(), base = vendasEsc();
     view.innerHTML = `${dir ? '' : avisoPerfil()}<div class="card flat"><div class="toolbar"><div class="field busca"><label for="vnQ">Buscar</label><div class="wrap">${ic('busca', 'sm')}<input type="search" id="vnQ" placeholder="Cliente, código${perfil === 'vend' ? '' : ' ou vendedor'}" autocomplete="off"></div></div>
     ${dir ? `<div class="field"><label for="vnE">Equipe</label><select id="vnE"><option value="">Todas</option>${D.equipes.map(e => `<option value="${e.id}">${esc(e.nome)}</option>`).join('')}</select></div>` : ''}
     <div class="field"><label for="vnU">Estado</label><select id="vnU"><option value="">Todos</option>${Object.keys(D.cidades).filter(u => base.some(x => x.uf === u)).map(u => `<option value="${u}">${u} · ${esc(D.cidades[u].nome)}</option>`).join('')}</select></div>
     <div class="field"><label for="vnC">Cidade</label><select id="vnC" disabled><option value="">Escolha um estado</option></select></div>
     <div class="field"><label for="vnS">Status</label><select id="vnS"><option value="">Todos</option>${['Instalada', 'Agendada', 'Pendente', 'Cancelada'].map(s => `<option>${s}</option>`).join('')}</select></div>
     <div class="field"><label for="vnP">Produto</label><select id="vnP"><option value="">Todos</option>${D.produtos.map(p => `<option>${esc(p.nome)}</option>`).join('')}</select></div>
+    <div class="field"><label for="vnM">Conversa</label><select id="vnM"><option value="">Todas</option><option value="com">Com conversa</option><option value="nl">Mensagens não lidas</option></select></div>
     <div class="field"><label for="vnO">Ordenar por</label><select id="vnO">${Object.entries(ORDS).map(([k, t]) => `<option value="${k}">${t}</option>`).join('')}</select></div>
     <div class="push"><button class="btn pri" type="button" id="vnCsv">${ic('baixar', 'sm')}Exportar CSV</button></div></div>
     <div id="vnChips" style="padding:0 18px 14px"></div><div id="vnTab"></div></div>`;
-    $('#vnQ').value = VN.q; if (dir) $('#vnE').value = VN.eq; $('#vnU').value = VN.uf; cidades(); $('#vnS').value = VN.st; $('#vnP').value = VN.pr; $('#vnO').value = ordKey();
+    $('#vnQ').value = VN.q; if (dir) $('#vnE').value = VN.eq; $('#vnU').value = VN.uf; cidades(); $('#vnS').value = VN.st; $('#vnP').value = VN.pr; $('#vnM').value = VN.cv; $('#vnO').value = ordKey();
     $('#vnQ').addEventListener('input', e => { VN.q = e.target.value; VN.pg = 1; pintaVn(); });
     if (dir) $('#vnE').addEventListener('change', e => { VN.eq = e.target.value; VN.pg = 1; pintaVn(); });
     $('#vnU').addEventListener('change', e => { VN.uf = e.target.value; VN.cid = ''; VN.pg = 1; cidades(); pintaVn(); });
     $('#vnC').addEventListener('change', e => { VN.cid = e.target.value; VN.pg = 1; pintaVn(); });
     $('#vnS').addEventListener('change', e => { VN.st = e.target.value; VN.pg = 1; pintaVn(); });
     $('#vnP').addEventListener('change', e => { VN.pr = e.target.value; VN.pg = 1; pintaVn(); });
+    $('#vnM').addEventListener('change', e => { VN.cv = e.target.value; VN.pg = 1; pintaVn(); });
     $('#vnO').addEventListener('change', e => { const m = e.target.value.match(/^(\w+?)(-?1)$/); VN.k = m[1]; VN.dir = Number(m[2]); VN.pg = 1; pintaVn(); });
     $('#vnCsv').addEventListener('click', exportaCsv);
     pintaVn();
@@ -437,18 +522,19 @@
   const PG = 10;
   function pintaVn() {
     const l = filtradas(), tot = l.length, pgs = Math.max(1, Math.ceil(tot / PG)); VN.pg = Math.min(VN.pg, pgs);
-    const dir = perfil === 'dir', ver = perfil !== 'vend', pagina = l.slice((VN.pg - 1) * PG, VN.pg * PG);
+    const dir = amplo(), ver = perfil !== 'vend', pagina = l.slice((VN.pg - 1) * PG, VN.pg * PG);
     const chips = []; const addChip = (t, k) => chips.push(`<span class="chip">${esc(t)}<button type="button" data-rm="${k}" aria-label="Remover filtro ${esc(t)}">${ic('x', 'sm')}</button></span>`);
-    if (VN.q) addChip('Busca: ' + VN.q, 'q'); if (VN.eq) addChip(equipe(VN.eq).nome, 'eq'); if (VN.uf) addChip('Estado: ' + VN.uf, 'uf'); if (VN.cid) addChip('Cidade: ' + VN.cid, 'cid'); if (VN.st) addChip('Status: ' + VN.st, 'st'); if (VN.pr) addChip(VN.pr, 'pr');
+    if (VN.q) addChip('Busca: ' + VN.q, 'q'); if (VN.eq) addChip(equipe(VN.eq).nome, 'eq'); if (VN.uf) addChip('Estado: ' + VN.uf, 'uf'); if (VN.cid) addChip('Cidade: ' + VN.cid, 'cid'); if (VN.st) addChip('Status: ' + VN.st, 'st'); if (VN.pr) addChip(VN.pr, 'pr'); if (VN.cv) addChip(VN.cv === 'nl' ? 'Mensagens não lidas' : 'Com conversa', 'cv');
     $('#vnChips').innerHTML = chips.length ? `<div class="chips">${chips.join('')}<button class="btn ghost sm" type="button" id="vnLimpa">Limpar filtros</button></div>` : '';
-    $$('[data-rm]').forEach(b => b.addEventListener('click', () => { const k = b.dataset.rm; VN[k] = ''; if (k === 'uf') VN.cid = ''; ({ q: () => $('#vnQ').value = '', eq: () => dir && ($('#vnE').value = ''), uf: () => { $('#vnU').value = ''; cidades(); }, cid: () => $('#vnC').value = '', st: () => $('#vnS').value = '', pr: () => $('#vnP').value = '' })[k](); VN.pg = 1; pintaVn(); }));
+    $$('[data-rm]').forEach(b => b.addEventListener('click', () => { const k = b.dataset.rm; VN[k] = ''; if (k === 'uf') VN.cid = ''; ({ q: () => $('#vnQ').value = '', eq: () => dir && ($('#vnE').value = ''), uf: () => { $('#vnU').value = ''; cidades(); }, cid: () => $('#vnC').value = '', st: () => $('#vnS').value = '', pr: () => $('#vnP').value = '', cv: () => $('#vnM').value = '' })[k](); VN.pg = 1; pintaVn(); }));
     const lm = $('#vnLimpa'); if (lm) lm.addEventListener('click', limpaVn);
     const el = $('#vnTab');
     if (!tot) { el.innerHTML = vazio('Nenhuma venda encontrada', 'Nenhum registro combina com os filtros escolhidos.', '<button class="btn" type="button" id="vnLimpa2">Limpar filtros</button>'); $('#vnLimpa2').addEventListener('click', limpaVn); return; }
     const th = (k, t, cls = '') => `<th class="${cls}" ${VN.k === k ? `aria-sort="${VN.dir === 1 ? 'ascending' : 'descending'}"` : ''}><button type="button" data-k="${k}">${t}<span class="sa" aria-hidden="true">${VN.k === k ? (VN.dir === 1 ? '▲' : '▼') : '↕'}</span></button></th>`;
-    el.innerHTML = `<div class="resumo"><span><b>${n(tot)}</b> ${tot === 1 ? 'venda' : 'vendas'}</span><span>Mensalidades somadas: <b>${brl(sum(l, x => x.valor))}</b></span><span>Canceladas: <b>${n(l.filter(x => x.status === 'Cancelada').length)}</b></span></div><div class="tbl-wrap"><table class="tbl cards"><thead><tr>${th('id', 'Código / data')}${th('cliente', 'Cliente')}${th('produto', 'Produto')}${th('cidade', 'Cidade/UF')}${ver ? th('vendedor', 'Vendedor') : ''}${th('valor', 'Valor mensal', 'r')}${th('status', 'Status')}</tr></thead><tbody>${pagina.map(x => `<tr><td class="t0 num"><span class="id">${x.id}</span><small>${dd(x.d)} às ${String(x.h).padStart(2, '0')}:${String(x.m).padStart(2, '0')}</small></td><td data-l="Cliente">${esc(x.cliente)}</td><td data-l="Produto">${esc(x.produto)}</td><td data-l="Cidade/UF">${esc(x.cidade)}/${x.uf}</td>${ver ? `<td data-l="Vendedor"><span class="pessoa" style="font-weight:500">${av(vend(x.vend).nome, 24)}${esc(vend(x.vend).nome)}</span></td>` : ''}<td class="r num" data-l="Valor mensal"><b>${brl(x.valor)}</b></td><td data-l="Status">${stPill(x.status)}</td></tr>`).join('')}</tbody></table></div>
+    el.innerHTML = `<div class="resumo"><span><b>${n(tot)}</b> ${tot === 1 ? 'venda' : 'vendas'}</span><span>Mensalidades somadas: <b>${brl(sum(l, x => x.valor))}</b></span><span>Canceladas: <b>${n(l.filter(x => x.status === 'Cancelada').length)}</b></span></div><div class="tbl-wrap"><table class="tbl cards"><thead><tr>${th('id', 'Código / data')}${th('cliente', 'Cliente')}${th('produto', 'Produto')}${th('cidade', 'Cidade/UF')}${ver ? th('vendedor', 'Vendedor') : ''}${th('valor', 'Valor mensal', 'r')}${th('status', 'Status')}<th class="c"><span class="sr">Conversa</span><span aria-hidden="true">${ic('chat', 'sm')}</span></th></tr></thead><tbody>${pagina.map(x => `<tr class="cl" tabindex="0" data-venda="${x.id}" aria-label="Venda ${x.id}, ${esc(x.cliente)}. Abrir detalhe e conversa"><td class="t0 num"><span class="id">${x.id}</span><small>${dd(x.d)} às ${String(x.h).padStart(2, '0')}:${String(x.m).padStart(2, '0')}</small></td><td data-l="Cliente">${esc(x.cliente)}</td><td data-l="Produto">${esc(x.produto)}</td><td data-l="Cidade/UF">${esc(x.cidade)}/${x.uf}</td>${ver ? `<td data-l="Vendedor"><span class="pessoa" style="font-weight:500">${av(vend(x.vend).nome, 24)}${esc(vend(x.vend).nome)}</span></td>` : ''}<td class="r num" data-l="Valor mensal"><b>${brl(x.valor)}</b></td><td data-l="Status">${stPill(x.status)}</td><td class="c" data-l="Conversa">${chatIco(x.id)}</td></tr>`).join('')}</tbody></table></div>
     <div class="tbl-foot"><span>Mostrando ${(VN.pg - 1) * PG + 1} a ${Math.min(tot, VN.pg * PG)} de ${n(tot)}</span><nav class="pager" aria-label="Paginação">${pager(pgs)}</nav></div>`;
     $$('[data-k]', el).forEach(b => b.addEventListener('click', () => { const k = b.dataset.k; if (VN.k === k) VN.dir *= -1; else { VN.k = k; VN.dir = (k === 'valor' || k === 'id') ? -1 : 1; } VN.pg = 1; $('#vnO').value = ORDS[ordKey()] ? ordKey() : $('#vnO').value; pintaVn(); const nb = $(`[data-k="${k}"]`); if (nb) nb.focus({ preventScroll: true }); }));
+    $$('tr[data-venda]', el).forEach(tr => { const g = () => abreVenda(tr.dataset.venda); tr.addEventListener('click', g); tr.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); g(); } }); });
     $$('[data-p]', el).forEach(b => b.addEventListener('click', () => { VN.pg = Number(b.dataset.p); pintaVn(); const t = $('#vnTab'); const top = t.getBoundingClientRect().top + scrollY - 140; if (top < scrollY) scrollTo({ top, behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth' }); }));
   }
   function pager(pgs) {
@@ -456,7 +542,7 @@
     o.forEach(p => { if (p - ult > 1) h += '<span class="muted" aria-hidden="true">…</span>'; h += `<button type="button" data-p="${p}" ${p === VN.pg ? 'aria-current="page"' : ''} aria-label="Página ${p}">${p}</button>`; ult = p; });
     return h + `<button type="button" data-p="${VN.pg + 1}" ${VN.pg === pgs ? 'disabled' : ''} aria-label="Próxima página">${ic('dir', 'sm')}</button>`;
   }
-  function limpaVn() { VN = { ...VN, q: '', eq: '', uf: '', cid: '', st: '', pr: '', pg: 1 }; vendas(); }
+  function limpaVn() { VN = { ...VN, q: '', eq: '', uf: '', cid: '', st: '', pr: '', cv: '', pg: 1 }; vendas(); }
   function baixa(nome, texto) {
     const blob = new Blob(['﻿' + texto], { type: 'text/csv;charset=utf-8' }), url = URL.createObjectURL(blob), a = document.createElement('a');
     a.href = url; a.download = nome; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1500);
@@ -470,10 +556,82 @@
   }
 
   // =====================================================================
+  // Detalhe da venda + chat entre backoffice e vendedor
+  // =====================================================================
+  const chatIco = id => {
+    const t = D.vendaChats[id];
+    if (!t) return '<span class="muted" aria-hidden="true">—</span><span class="sr">Sem conversa</span>';
+    const nl = !t.lido[lado()], txt = nl ? 'Mensagem não lida' : t.msgs.length + (t.msgs.length === 1 ? ' mensagem' : ' mensagens');
+    return `<span class="vc-ic${nl ? ' nl' : ''}" title="${txt}">${ic('chat', 'sm')}<span class="sr">${txt}</span>${nl ? '<i aria-hidden="true"></i>' : ''}</span>`;
+  };
+  let relV = 10 * 60 + 4, digV = null;
+  const horaV = () => { relV++; return String(Math.floor(relV / 60)).padStart(2, '0') + ':' + String(relV % 60).padStart(2, '0'); };
+  const outroLado = () => lado() === 'bo' ? 'vend' : 'bo';
+  function abreVenda(id) {
+    const x = D.vendas.find(v => v.id === id); if (!x) return;
+    const v = vend(x.vend), e = equipe(x.eq), t = D.vendaChats[id];
+    if (t) t.lido[lado()] = true;
+    const hora = String(x.h).padStart(2, '0') + ':' + String(x.m).padStart(2, '0');
+    const P1 = ['Venda lançada', `${dd(x.d)} às ${hora} por ${v.nome}`];
+    const passos = x.status === 'Cancelada' ? [[...P1, 'ok'], ['Venda cancelada', 'Cliente desistiu antes da instalação', 'cr']]
+      : x.status === 'Pendente' ? [[...P1, 'ok'], ['Cadastro com pendência', t ? 'Assunto: ' + t.tema.toLowerCase() + ' · veja a conversa abaixo' : 'Aguardando conferência do backoffice', 'on'], ['Instalação', 'Agendada depois que o cadastro for liberado', '']]
+        : x.status === 'Agendada' ? [[...P1, 'ok'], ['Cadastro conferido', 'Backoffice · ' + D.backoffice, 'ok'], ['Instalação agendada', 'Até ' + dd(Math.min(30, x.d + 3)) + ' · período da manhã', 'on'], ['Instalada', '', '']]
+          : [[...P1, 'ok'], ['Cadastro conferido', 'Backoffice · ' + D.backoffice, 'ok'], ['Instalação agendada', '', 'ok'], ['Instalada', 'Cliente ativo', 'ok']];
+    const outro = lado() === 'bo' ? v.nome : D.backoffice;
+    const rap = lado() === 'bo' ? ['Pode mandar a foto do documento?', 'Confirma o número do endereço?', 'Cadastro liberado ✅'] : ['Mando agora!', 'Cliente confirmou os dados ✅', 'Dá para agendar amanhã?'];
+    abre($('#drawer'), `<div class="dw-head"><button class="x" type="button" data-close aria-label="Fechar detalhe">${ic('x')}</button><div class="who">${av(x.cliente, 56)}<div><h2 id="drawerTitulo">${esc(x.cliente)}</h2><div class="sub">${x.id} · ${esc(x.produto)} · ${stPill(x.status)}</div></div></div></div>
+      <div class="dw-body"><div class="mk"><div><span>Mensalidade</span><b class="num">${brl(x.valor)}</b></div><div><span>Cidade</span><b>${esc(x.cidade)}/${x.uf}</b></div><div><span>Vendedor</span><b>${esc(v.nome)}</b></div><div><span>Equipe</span><b>${esc(e.nome)}</b></div></div>
+      <section><h3>Andamento</h3><ol class="vt">${passos.map(p => `<li class="${p[2]}"><b>${esc(p[0])}</b>${p[1] ? `<small>${esc(p[1])}</small>` : ''}</li>`).join('')}</ol></section>
+      <section class="vc"><div class="vc-h"><h3>Conversa da venda</h3>${t ? `<span class="pill cinza">${esc(t.tema)}</span>` : ''}</div><p class="muted vc-sub">Backoffice e vendedor resolvem pendências aqui. Tudo fica no histórico da venda.</p>
+        <div class="vc-log" id="vcLog" data-v="${x.id}" role="log" aria-live="polite" aria-label="Mensagens da venda ${x.id}"></div>
+        <div class="vc-rap" aria-label="Respostas rápidas">${rap.map(r => `<button type="button" data-vr="${esc(r)}">${esc(r)}</button>`).join('')}</div>
+        <form class="vc-f" id="vcF"><button type="button" class="vc-ib" id="vcAnexo" aria-label="Anexar foto ou documento (simulação)">${ic('clip', 'sm')}</button><label class="sr" for="vcT">Mensagem para ${esc(outro)}</label><textarea id="vcT" rows="1" placeholder="Escreva para ${esc(prim(outro))}…"></textarea><button class="btn pri sm" type="submit" aria-label="Enviar mensagem">${ic('env', 'sm')}</button></form>
+        <p class="vc-quem muted">Você está escrevendo como <b>${esc(autorEu())}</b> (${lado() === 'bo' ? 'backoffice' : 'vendedor'}). Troque em <b>Ver como</b> para responder pelo outro lado.</p></section></div>`);
+    pintaVc(id);
+    const f = $('#vcF'), ta = $('#vcT');
+    f.addEventListener('submit', ev => { ev.preventDefault(); enviaVc(id, ta.value); ta.value = ''; ta.focus(); });
+    ta.addEventListener('keydown', ev => { if (ev.key === 'Enter' && !ev.shiftKey) { ev.preventDefault(); f.requestSubmit(); } });
+    $$('[data-vr]').forEach(b => b.addEventListener('click', () => enviaVc(id, b.dataset.vr)));
+    $('#vcAnexo').addEventListener('click', () => enviaVc(id, 'foto-' + id.toLowerCase() + '.jpg', 'anexo'));
+    atualizaTudo();
+    if (rota === 'vendas' && $('#vnTab')) { pintaVn(); const r = $(`tr[data-venda="${id}"]`); if (r) ultimoFoco = r; }
+  }
+  function pintaVc(id) {
+    const log = $('#vcLog'); if (!log || log.dataset.v !== id) return;
+    const t = D.vendaChats[id];
+    log.innerHTML = (t && t.msgs.length ? t.msgs.map(m => m.de === 'sis' ? `<div class="vc-sis">${esc(m.txt)} · ${dd(m.d)} ${m.h}</div>`
+      : `<div class="vc-m ${m.de === lado() ? 'eu' : ''}"><span class="vc-a">${esc(m.autor)} · ${m.de === 'bo' ? 'backoffice' : 'vendedor'}</span><p>${m.tipo === 'anexo' ? `<span class="vc-anexo">${ic('clip', 'sm')}${esc(m.txt)}</span>` : esc(m.txt)}</p><time>${dd(m.d)} ${m.h}</time></div>`).join('')
+      : '<div class="vc-vazio">Nenhuma mensagem ainda. Comece a conversa sobre esta venda.</div>')
+      + (digV === id ? `<div class="vc-dig">${esc(prim(outroLado() === 'vend' ? vend(D.vendas.find(x => x.id === id).vend).nome : D.backoffice))} está digitando…</div>` : '');
+    log.scrollTop = log.scrollHeight;
+  }
+  function enviaVc(id, texto, tipo) {
+    const txt = String(texto).trim(); if (!txt) return;
+    let t = D.vendaChats[id];
+    if (!t) t = D.vendaChats[id] = { tema: 'Conversa', msgs: [], lido: { bo: true, vend: true } };
+    t.msgs.push({ de: lado(), autor: autorEu(), txt, d: HOJE, h: horaV(), tipo: tipo || '' });
+    t.lido[lado()] = true; t.lido[outroLado()] = false;
+    pintaVc(id); atualizaTudo();
+    const ol = outroLado(), x = D.vendas.find(v => v.id === id), quem = ol === 'vend' ? vend(x.vend).nome : D.backoffice;
+    const R = ol === 'vend' ? ['Certo, já resolvo com o cliente!', 'Combinado, te mando em instantes.', 'Pode deixar 👍'] : ['Recebido! Vou conferir e te aviso.', 'Obrigada! Atualizei a venda aqui.', 'Perfeito, sigo com o cadastro.'];
+    setTimeout(() => { digV = id; pintaVc(id); }, 800);
+    setTimeout(() => {
+      if (digV === id) digV = null;
+      const meuLado = ol === 'vend' ? 'bo' : 'vend';
+      t.msgs.push({ de: ol, autor: quem, txt: R[t.msgs.length % 3], d: HOJE, h: horaV(), tipo: '' });
+      t.lido[ol] = true;
+      const vendo = $('#vcLog') && $('#vcLog').dataset.v === id && lado() === meuLado;
+      t.lido[meuLado] = !!vendo;
+      pintaVc(id); atualizaTudo();
+      if (!vendo) { if (rota === 'vendas' && $('#vnTab') && !camada) pintaVn(); toast(`${prim(quem)} respondeu na venda ${id}`); }
+    }, 2600);
+  }
+
+  // =====================================================================
   // 5. METAS E COMISSÕES
   // =====================================================================
   function metas() {
-    const dir = perfil === 'dir', vs = vsEsc(), r = resumo(vs), faltam = Math.max(0, r.meta - r.vendas), sit = situacao(r);
+    const dir = amplo(), vs = vsEsc(), r = resumo(vs), faltam = Math.max(0, r.meta - r.vendas), sit = situacao(r);
     const topo = `<div class="grid g4"><article class="card kpi" style="min-height:0"><div class="k-l">Meta do mês</div><div class="k-v">${n(r.meta)} <small>vendas</small></div><div class="k-s">${dir ? 'Soma das metas das 4 equipes' : perfil === 'lider' ? 'Soma da Equipe Aurora' : 'Sua meta individual'}</div></article>
       <article class="card kpi" style="min-height:0"><div class="k-l">Realizado até ${dd(HOJE)}</div><div class="k-v">${n(r.vendas)} <small>(${pc(r.ating)})</small></div>${bar(r.ating, '', RITMO)}</article>
       <article class="card kpi" style="min-height:0"><div class="k-l">Falta para a meta</div><div class="k-v">${n(faltam)} <small>vendas</small></div><div class="k-s">≈ ${dec(faltam / DUTEIS)} por dia útil (${DUTEIS} restantes)</div></article>
@@ -488,7 +646,7 @@
   }
   function presetDe(id) { const r = sv(id), v = vend(id); return { quem: id, vendas: r.vendas, meta: v.meta, ticket: Math.round(r.ticket * 100) / 100, canc: r.canc, eq: false }; }
   function pintaMt() {
-    const dir = perfil === 'dir', l = vsEsc().filter(v => !MT.eq || v.equipe === MT.eq).sort((a, b) => sv(b.id).ating - sv(a.id).ating);
+    const dir = amplo(), l = vsEsc().filter(v => !MT.eq || v.equipe === MT.eq).sort((a, b) => sv(b.id).ating - sv(a.id).ating);
     $('#mtTab').innerHTML = `<div class="tbl-wrap"><table class="tbl cards nw"><thead><tr><th>Vendedor</th>${dir ? '<th>Equipe</th>' : ''}<th class="r hm">Meta</th><th class="r hm">Realizado</th><th>Atingimento</th><th class="r hm">Faltam</th><th>Situação</th><th class="r">Comissão (estimativa)</th><th></th></tr></thead><tbody>${l.map(v => { const r = sv(v.id), s = situacao(r), f = Math.max(0, v.meta - r.vendas), c = comissao({ vendas: r.vendas, meta: v.meta, ticket: r.ticket, canc: r.canc, eq: false }); return `<tr><td class="t0"><div class="pessoa">${av(v.nome)}<span>${esc(v.nome)}<small>${esc(v.status)}</small></span></div></td>${dir ? `<td data-l="Equipe">${esc(equipe(v.equipe).nome)}</td>` : ''}<td class="r num hm" data-l="Meta">${n(v.meta)}</td><td class="r num hm" data-l="Realizado">${n(r.vendas)}</td><td data-l="Atingimento"><div class="mini"><span class="num">${pc(r.ating)} <span class="muted" style="font-weight:500">· ${n(r.vendas)} de ${n(v.meta)}</span></span>${bar(r.ating, '', RITMO)}</div></td><td class="r num hm" data-l="Faltam">${n(f)}<small class="dim">${dec(f / DUTEIS)}/dia útil</small></td><td data-l="Situação"><span class="pill ${s[0]}">${s[1]}</span></td><td class="r num" data-l="Comissão estimada"><b>${brl0(c.total)}</b></td><td class="r"><button class="btn sm" type="button" data-sim="${v.id}">Simular</button></td></tr>`; }).join('')}</tbody></table></div>`;
     $$('[data-sim]').forEach(b => b.addEventListener('click', () => { SM = presetDe(b.dataset.sim); simulador(); $('#sim').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth', block: 'start' }); toast('Simulador preenchido com os dados de ' + vend(b.dataset.sim).nome); }));
   }

@@ -9,6 +9,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='13' fill='%231e3a8a'/%3E%3Cpath d='M31 11H22A6.5 6.5 0 0 0 22 24H26A6.5 6.5 0 0 1 26 37H15' stroke='%23fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='35' cy='11' r='3.2' fill='%2393c5fd'/%3E%3Ccircle cx='12' cy='37' r='3.2' fill='%2393c5fd'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="../_base/tokens.css">
 <link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="chat-express.css">
 </head>
 <body>
 <a class="skip" href="#view">Ir para o conteúdo</a>
@@ -17,7 +18,7 @@
   <aside class="side" id="side" aria-label="Menu principal">
     <div class="brand">
       <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="13" fill="#1e3a8a"/><path d="M31 11H22A6.5 6.5 0 0 0 22 24H26A6.5 6.5 0 0 1 26 37H15" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="35" cy="11" r="3.2" fill="#93c5fd"/><circle cx="12" cy="37" r="3.2" fill="#93c5fd"/></svg>
-      <div><strong>Norte Conecta</strong><span>Gestão Comercial</span></div>
+      <div><strong>Norte Conecta</strong><span>Gestão e atendimento</span></div>
     </div>
     <nav id="nav" aria-label="Telas"></nav>
     <div class="side-foot">
@@ -37,10 +38,12 @@
         <label class="ver-como"><span>Ver como</span>
           <select id="perfil" aria-label="Ver como (perfil de acesso)">
             <option value="dir">Diretoria</option>
+            <option value="bo">Backoffice · Sofia Lemos</option>
             <option value="lider">Líder · Marina Tavares</option>
             <option value="vend">Vendedor · Davi Prado</option>
           </select>
         </label>
+        <div class="sino-w"><button class="sino" id="sino" type="button" aria-label="Avisos" aria-expanded="false" aria-controls="avisosPop"></button><div class="avisos-pop" id="avisosPop" role="region" aria-label="Avisos" hidden></div></div>
         <span class="avatar" id="avatar" aria-hidden="true">DN</span>
       </div>
     </header>
@@ -57,6 +60,8 @@
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <script src="data.js"></script>
+<script src="dados-conversas.js"></script>
+<script src="chat-express.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
